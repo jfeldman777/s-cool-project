@@ -1,0 +1,3 @@
+# activation_email_subject.txt
+
+Активация аккаунта – {{ site }}
