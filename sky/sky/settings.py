@@ -101,7 +101,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-ACCOUNT_ACTIVATION_DAYS = 3 
+ACCOUNT_ACTIVATION_DAYS = 3
 # One-week activation window; you may, of course, use a different value.
 AUTH_USER_EMAIL_UNIQUE = True
 EMAIL_HOST = 'localhost'
@@ -128,10 +128,20 @@ USE_TZ = True
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LANGUAGE_CODE = 'ru-RU'  # для русской локали
+USE_I18N = True # интернационалицация по-умолчанию включена
+
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-
-LANGUAGE_CODE = 'ru-RU'  # для русской локали
-USE_I18N = True # интернационалицация по-умолчанию включена
+STATICFILES_DIRS = [
+            os.path.join(BASE_DIR, "static"),
+        ]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
