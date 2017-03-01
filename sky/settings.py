@@ -106,12 +106,20 @@ AUTH_PASSWORD_VALIDATORS = [
 ACCOUNT_ACTIVATION_DAYS = 3
 # One-week activation window; you may, of course, use a different value.
 AUTH_USER_EMAIL_UNIQUE = True
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = False
-DEFAULT_FROM_EMAIL = 'info@google.ru'
+#EMAIL_HOST = 'localhost'
+#EMAIL_PORT = 1025
+#EMAIL_HOST_USER = ''
+#EMAIL_HOST_PASSWORD = ''
+#EMAIL_USE_TLS = False
+#DEFAULT_FROM_EMAIL = 'info@google.ru'
+
+#import os
+EMAIL_HOST_USER = os.environ['SENDGRID_USERNAME']
+EMAIL_HOST= 'smtp.sendgrid.net'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']
+
 
 #LOGIN_REDIRECT_URL = 'views.home'
 # Internationalization
