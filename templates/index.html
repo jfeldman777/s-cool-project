@@ -2,18 +2,19 @@
 <html>
 <head></head>
 <body>
-Hello! I am index.<br/><br/>
+Вы находитесь на первой странице проекта Скай-Скул<br/><br/>
 
-username = {{ user }}
+Вас зовут = {{ user }}
 
 <br/>
 {% if request.user.is_authenticated  %}
-I am human but I can
+Вы активный зарегистрированный пользователь
 <a href="/logout/">LOGOUT</a>
 {% else %}
-I am alien but I can
-<a href="/login/">LOGIN</a>
- or
+Сейчас вы неизвестно кто.<br/>
+Чтобы узнать больше, зарегистрируйтесь:
+<a href="/login/">LOGIN</a><br/>
+или войдите в систему:
 <a href="/accounts/register/">SIGN_UP</a>
 {% endif %}
 </body>
