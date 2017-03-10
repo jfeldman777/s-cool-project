@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>edit_profile</title>
+</head>
+<body>
+  <form method="post">
+    {% csrf_token %}
+    {{ user_form.as_p }}
+    {{ profile_form.as_p }}
+    <button type="submit">Save changes</button>
+  </form>
+  (Birth Date = YYYY-MM-DD or DD.MM.YYYY)
+</body>
+</html>
