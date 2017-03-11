@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from snow.models import Profile
+from snow.models import UserProfile as Profile
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 
@@ -23,7 +23,7 @@ def my_room(request):
 def edit_profile(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=request.user)
-        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        profile_form = ProfileForm(request.POST, instance=request.user.userprofile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
@@ -33,7 +33,7 @@ def edit_profile(request):
             messages.error(request, _('Please correct the error below.'))
     else:
         user_form = UserForm(instance=request.user)
-        profile_form = ProfileForm(instance=request.user.profile)
+        profile_form = ProfileForm(instance=request.user.userprofile)
         return render(request, 'edit_profile.html', {
             'user_form': user_form,
             'profile_form': profile_form
