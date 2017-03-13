@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from sky import settings
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -10,8 +9,11 @@ class UserProfile(models.Model):
 
     picture = models.ImageField(null=True);
 
+    site = models.URLField(null=True)
+
     def __str__(self):
         return self.user.username
+
 
     #website = models.URLField(blank=True)
     #picture = models.ImageField(upload_to='profile_images', blank=True)

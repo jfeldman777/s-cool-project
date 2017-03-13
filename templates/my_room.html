@@ -13,7 +13,8 @@
   <li>Location: {{ user.userprofile.location }}</li>
   <li>Birth Date: {{ user.userprofile.birth_date }}</li>
   <li>Bio: {{ user.userprofile.bio }}</li>
+  <li><a href='{{user.userprofile.site}}' target="1">Site:</a></li>
 </ul>
-
+<img src = '{{ user.userprofile.picture.url }}'/>
 </body>
 </html>
