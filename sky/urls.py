@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url,include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from .views import index, home, my_room, edit_profile
+from .views import index, home, my_room, edit_profile, hall
 from registration.backends.hmac.views import RegistrationView
 from registration.forms import RegistrationFormUniqueEmail
 
@@ -31,6 +31,7 @@ if settings.DEBUG:#в этом режиме медиафайлы берутся 
 urlpatterns += [
     url(r'^admin/', admin.site.urls),
     #панель администратора - для тех у кого есть права администратора
+    url(r'^hall/', hall, name="hall"),
     url(r'^my_room/', my_room, name="my_room"),
     #личный кабинет
     url(r'^edit_profile/', edit_profile, name="edit_profile"),

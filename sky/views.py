@@ -17,7 +17,10 @@ def my_room(request):
     obj, created = Profile.objects.get_or_create(user = request.user)
     return render(request,"my_room.html")
 
-#edit_profile
+@login_required
+def hall(request):
+    return render(request,"hall.html")
+
 @login_required
 @transaction.atomic
 def edit_profile(request):

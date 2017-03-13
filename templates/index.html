@@ -8,16 +8,19 @@
 </H1>
 <br/>
 {% if request.user.is_authenticated  %}
-Вы активный зарегистрированный пользователь - и у вас есть свой
-<a href='/my_room/'>личный кабинет</a>
+ <hr>
+Вы активный зарегистрированный пользователь - у вас есть свой
+<a href='/my_room/'>личный кабинет</a> и вы можете пройти
+<a href="/hall/">
+ в главный зал
+ </a>
  <hr>
 <a href="/logout/">LOGOUT</a>
 {% else %}
 Сейчас вы неизвестно кто.<br/>
-Чтобы узнать больше, зарегистрируйтесь:
-<a href="/login/">LOGIN</a><br/>
+Чтобы узнать больше, зарегистрируйтесь:<a href="/accounts/register/">SIGN_UP</a><br/>
 или войдите в систему:
-<a href="/accounts/register/">SIGN_UP</a>
+<a href="/login/">LOGIN</a>
 {% endif %}
 </body>
 </html>
