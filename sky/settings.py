@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import whitenoise.middleware
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+     'storages',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'sky.urls'
@@ -114,13 +117,16 @@ AUTH_USER_EMAIL_UNIQUE = True
 #DEFAULT_FROM_EMAIL = 'info@google.ru'
 
 #import os
+UP = True
 try:
     EMAIL_HOST_USER = os.environ['SENDGRID_USERNAME']
     EMAIL_HOST= 'smtp.sendgrid.net'
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
     EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']
+
 except:
+    UP = False
     pass
 
 #LOGIN_REDIRECT_URL = 'views.home'
@@ -150,11 +156,27 @@ DATABASES['default'].update(db_from_env)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
+STATIC_HOST = 'https://d2mjsx616o8pj3.cloudfront.net' if UP else ''
+STATIC_URL = STATIC_HOST+'/static/'
 
-
-STATIC_URL = '/static/'
 STATICFILES_DIRS = [
             os.path.join(BASE_DIR, "static"),
         ]
 STATIC_ROOT = os.path.normpath(os.path.join(BASE_DIR, "staticfiles"))
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+try:
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME', '')
+    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+    AWS_REGION = os.environ.get('AWS_REGION', '')
+    AWS_S3_CALLING_FORMAT = "boto.s3.connection.OrdinaryCallingFormat"
+    AWS_PRELOAD_METADATA = True
+    MEDIA_URL = 'https://s3-%s.amazonaws.com/%s/media/' % (AWS_REGION, AWS_STORAGE_BUCKET_NAME)
+    #DEFAULT_FILE_STORAGE = 'myapp.customstorages.MediaStorage'
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    MEDIAFILES_LOCATION = 'media'
+
+except:
+    pass
+ADMIN_MEDIA_PREFIX = MEDIA_URL + 'admin/'    
