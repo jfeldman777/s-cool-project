@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-     'storages',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -179,4 +179,4 @@ try:
 
 except:
     pass
-ADMIN_MEDIA_PREFIX = MEDIA_URL + 'admin/'    
+ADMIN_MEDIA_PREFIX = MEDIA_URL + 'admin/'

@@ -15,6 +15,10 @@
   <li>Bio: {{ user.userprofile.bio }}</li>
   <li><a href='{{user.userprofile.site}}' target="1">Site:</a></li>
 </ul>
+{% if user.userprofile.picture %}
 <img src = '{{ user.userprofile.picture.url }}'/>
+{% else %}
+нет фотографии
+{% endif %}
 </body>
 </html>
