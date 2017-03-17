@@ -10,4 +10,9 @@ class UserForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('bio', 'location', 'birth_date', 'picture','site')
+        #fields = ('bio', 'location', 'birth_date', 'picture','site')
+        fields = ('bio', 'location', 'birth_date', 'site')
+
+class ImageUploadForm(forms.Form):
+    """Image upload form."""
+    image = forms.ImageField()        

@@ -3,7 +3,7 @@ from snow.models import UserProfile as Profile
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 
-from .forms import UserForm, ProfileForm
+from .forms import UserForm, ProfileForm, ImageUploadForm
 from django.contrib import messages
 from django.utils.translation import gettext as _
 
@@ -34,6 +34,7 @@ def edit_profile(request):
             return my_room(request)
         else:
             messages.error(request, _('Please correct the error below.'))
+            return my_room(request)
     else:
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.userprofile)
@@ -41,3 +42,19 @@ def edit_profile(request):
             'user_form': user_form,
             'profile_form': profile_form
     })
+
+@login_required
+@transaction.atomic
+def edit_pic(request):
+    if request.method == 'POST':
+        form = ImageUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            m = Profile.objects.get(user=request.user)
+            m.picture = form.cleaned_data['image']
+            m.save()
+            messages.success(request, _('Your profile was successfully updated!'))
+            return my_room(request)
+        else:
+            messages.error(request, _('Please correct the error below.'))
+            return my_room(request)
+    return render(request, 'edit_pic.html')

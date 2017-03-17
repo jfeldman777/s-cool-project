@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['s-cool-project.herokuapp.com',
     ]
 
 # Application definition
+SMARTFIELDS_KEEP_ORPHANS = False
 
 INSTALLED_APPS = [
     'snow',
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'storages',
+    #'django-smartfields',
 ]
 
 MIDDLEWARE = [
@@ -134,13 +136,9 @@ except:
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 

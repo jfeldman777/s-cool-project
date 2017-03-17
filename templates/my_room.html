@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>  My Room </title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
 
 Личный кабинет (<a href="/edit_profile/">Изменить данные</a>)<br/>
 
@@ -20,5 +16,4 @@
 {% else %}
 нет фотографии
 {% endif %}
-</body>
-</html>
+{% endblock %}

@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url,include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from .views import index, home, my_room, edit_profile, hall
+from .views import index, home, my_room, edit_profile, hall, edit_pic
 from registration.backends.hmac.views import RegistrationView
 from registration.forms import RegistrationFormUniqueEmail
 
@@ -35,6 +35,7 @@ urlpatterns += [
     url(r'^my_room/', my_room, name="my_room"),
     #личный кабинет
     url(r'^edit_profile/', edit_profile, name="edit_profile"),
+    url(r'^edit_pic/', edit_pic, name="edit_pic"),
     #/edit_profile/
 
     url(r'^accounts/profile/', home, name="home"),
