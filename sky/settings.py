@@ -164,6 +164,7 @@ STATIC_ROOT = os.path.normpath(os.path.join(BASE_DIR, "staticfiles"))
 #STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 try:
+    AWS_S3_HOST = "s3-us-west-1.amazonaws.com"
     AWS_STORAGE_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME', '')
     AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
     AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
