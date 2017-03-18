@@ -2,6 +2,10 @@
 <html>
 <head></head>
 <body>
+  {% if user.is_superuser %}
+    <a href="/admin/">Admin-panel</a>
+    <hr>
+  {% endif %}
 Вы находитесь на первой странице проекта Скай-Скул<br/><br/>
 <H1>
 Вас зовут = {{ user }}

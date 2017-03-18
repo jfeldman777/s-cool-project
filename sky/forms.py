@@ -15,4 +15,7 @@ class ProfileForm(forms.ModelForm):
 
 class ImageUploadForm(forms.Form):
     """Image upload form."""
-    image = forms.ImageField()        
+    image = forms.ImageField()
+
+class AskStatus(forms.Form):
+    role = forms.CharField()

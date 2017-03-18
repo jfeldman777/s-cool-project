@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<table>
+  <tr><th>Роль</th><th>Статус</th><th>Дата</th><th>Действие</th></tr>
+
+  <tr><td>Эксперт</td><td>{{user.expertstatus.get_status }}
+  </td><td>{{ user.expertstatus.add_date }}</td>
+    <td>
+      {% if user.expertstatus.status == 'E' %}
+
+      <a href="/set_status/e/">Попросить статус Эксперта</a>
+      {% elif user.expertstatus.status == 'A'   %}
+          Ваш запрос поставлен в оочередь
+      {% elif user.expertstatus.status == 'D'   %}
+          С вами свяжутся, ждите
+      {% elif user.expertstatus.status == 'G'   %}
+          Все права даны
+      {% endif %}
+    </td></tr>
+  <tr><td>Тьютор</td><td>{{ user.tutorstatus.get_status }}
+  </td><td>{{ user.tutorstatus.add_date }}</td>
+    <td>
+            {% if user.tutorstatus.status == 'E' %}
+      <a href="/set_status/t/">Попросить статус Тьютора</a>
+            {% elif user.tutorstatus.status == 'A'   %}
+                Ваш запрос поставлен в оочередь
+            {% elif user.tutorstatus.status == 'D'   %}
+                С вами свяжутся, ждите
+            {% elif user.tutorstatus.status == 'G'   %}
+                Все права даны
+            {% endif %}
+    </td></tr>
+</table>
+
+
+
+{% endblock %}
