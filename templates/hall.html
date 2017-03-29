@@ -1,10 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>
-Вы находитесь в главном зале проекта. Сейчас вы {{user.userprofile.get_status}}
-</h1>
-(S = студент, E = эксперт, T = тьютор)<p>
-
+  <h2>
+Вы находитесь в главном зале проекта. </h2>
+<h3>Сейчас вы {{user.userprofile.get_status}}</h3>
 
 <form method="post" action="/get_status/"
 >{% csrf_token %}
@@ -14,8 +12,33 @@
           <option value="E">expert</option>
           <option value="T">tutor</option>
         </select>
-
     <input type="submit" value="Submit" />
 </form>
+<hr>
+
+{% if user.userprofile.last_status == 'S' %}
+ <a href="/all_courses/"> все курсы </a>
+ <hr>
+ Мои курсы
+ <ol>
+   {% for obj in qset %}
+   <li>{{ obj }}</li>
+   {% endfor %}
+ </ol>
+
+{% elif user.userprofile.last_status == 'E' %}
+<a href="/create_crs/">создать курс</a>
+<hr>
+Мои курсы
+<ol>
+  {% for obj in qset %}
+  <li><a href="/course/{{obj.id}}">{{ obj }}</a>
+  {% endfor %}
+</ol>
+
+{% elif user.userprofile.last_status == 'T' %}
+Мои студенты - найти студента - связаться со студентом
+
+{% endif %}
 
 {% endblock %}

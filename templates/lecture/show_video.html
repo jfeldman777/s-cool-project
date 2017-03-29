@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{course.name}}</h1>
+<h2>{{lecture.name}}</h2>
+<video name='video' controls width='50%' height='40%'>
+<source src="{{lecture.video.url}}" type="video/mp4"></source>
+</video>
+<hr>
+<a href="/course/{{course.id}}/">Вернуться к курсу</a>
+{% endblock %}

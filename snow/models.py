@@ -73,27 +73,93 @@ class TutorStatus(models.Model):
     def __str__(self):
         return self.user.username
 
-    #website = models.URLField(blank=True)
-    #picture = models.ImageField(upload_to='profile_images', blank=True)
-    #фото
+class Course(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    slides = models.URLField(null=True, blank=False)
 
-
-
-    #is_student = models.BooleanField(blank=False)
-    #is_tutor = models.BooleanField(blank=False)
-    #is_expert = models.BooleanField(blank=False)
-    #is_tech = models.BooleanField(blank=False)
-    #is_god = models.BooleanField(blank=False)
-    '''
-
-class InboxMessage(models.Model):
-    subject = models.CharField(max_length=80)
-    body = models.CharField(max_length=250)
-    userfrom = models.ForeignKey(User)
-    userto = models.ForeignKey(User)
-    date = models.DateTimeField(auto_now=True)
-    isopen = models.BooleanField(default = False)
+    approved = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.id)+':'+userfrom+'>>'+userto+':'+subject[:10]
-'''
+        return self.name
+
+class Lecture(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+
+    video = fields.FileField(null=True)
+    txt = models.TextField(max_length=300, blank=True)
+
+    NUMBER = (
+        ('0', 'Digest'),
+        ('1', 'N1'),
+        ('2', 'N2'),
+        ('3', 'N3'),
+        ('4', 'N4'),
+        ('5', 'N5'),
+    )
+    number = models.CharField(
+        max_length=1,
+        choices=NUMBER,
+        default='0',
+    )
+    def __str__(self):
+
+        return self.name
+
+class Question(models.Model):
+    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
+    IN_OUT = (
+        ('0','IN'),
+        ('1','OUT')
+    )
+    in_out = models.CharField(
+        max_length=1,
+        choices=IN_OUT,
+        default='0',
+    )
+    NUMBER = (
+        ('1', 'N1'),
+        ('2', 'N2'),
+        ('3', 'N3'),
+        ('4', 'N4'),
+        ('5', 'N5'),
+    )
+    number = models.CharField(
+        max_length=1,
+        choices=NUMBER,
+        default='0',
+    )
+    picture = fields.ImageField(null=True);
+    txt = models.TextField(max_length=300, null=True)
+    answer = models.IntegerField(null=True)
+
+    def __str__(self):
+        return self.txt
+
+class ExamRecord(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    in_0 = models.BooleanField(default = False)
+    out_0 = models.BooleanField(default = False)
+
+    in_1 = models.BooleanField(default = False)
+    out_1 = models.BooleanField(default = False)
+
+    in_2 = models.BooleanField(default = False)
+    out_2 = models.BooleanField(default = False)
+
+    in_3 = models.BooleanField(default = False)
+    out_3 = models.BooleanField(default = False)
+
+    in_4 = models.BooleanField(default = False)
+    out_4 = models.BooleanField(default = False)
+
+    in_5 = models.BooleanField(default = False)
+    out_5 = models.BooleanField(default = False)
+
+    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return str(self.student) + '@' + str(self.course)

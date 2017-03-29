@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Курс: {{course}}</h2>
+<h3>Лекция {{ lecture.number }}</h3>
+  <form
+   method="post" >{% csrf_token %}
+      <p> name: <br />
+          <input type="text" name="name" value="{{ lecture.name }}"
+          size="100" maxlength="100"
+          >
+      </p>
+      <p>
+       txt:<br />
+          <textarea name="txt" rows="10" cols="30" max_length=300>
+{{ lecture.txt }}
+</textarea>
+      </p>
+      <input type="submit" value="Submit" />
+  </form>
+  <hr>
+<a href="/course/{{course.id}}/">Вернуться к курсу</a>
+{% endblock %}

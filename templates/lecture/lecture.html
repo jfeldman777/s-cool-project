@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Курс: {{ course.name }}</h2>
+<h3>Лекция: {{ lecture.name }} ({{lecture.number}})</h3>
+<p>{{lecture.txt}}</p>
+
+          {% if lecture.video %}
+          <video name='video' controls width='25%' height='20%'>
+          <source src="{{lecture.video.url}}" type="video/mp4"></source>
+          </video>
+          {% else %}
+            <span class="glyphicon glyphicon-eye-close"></span>
+          {% endif %}
+
+
+      </ul>
+    <hr>
+    <a href="/exam/{{course.id}}/{{lecture.id}}/0/" title="exam before lecture">
+    <span class="glyphicon glyphicon-log-in"></span>
+    </a>
+    <a href="/course/{{course.id}}/">Вернуться к курсу</a>
+      <a href="/exam/{{course.id}}/{{lecture.id}}/1/" title="exam after lecture">
+    <span class="glyphicon glyphicon-log-out"></span>
+    </a>
+
+
+{% endblock %}

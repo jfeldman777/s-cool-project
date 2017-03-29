@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from snow.models import UserProfile as Profile
 from snow.models import ExpertStatus, TutorStatus
+from snow.models import Course, ExamRecord
 
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
@@ -45,8 +46,8 @@ def set_status(request, role):
 
 @login_required
 def get_status(request):
-    if request.method == 'POST':
-        form = AskStatus(request.POST)
+    #if request.method == 'POST':
+        form = AskStatus(request.POST or None)
         if form.is_valid():
             role = form.cleaned_data['role']
             if role == 'E':
@@ -61,34 +62,37 @@ def get_status(request):
             m = Profile.objects.get(user=request.user)
             m.last_status = role
             m.save()
-            return render(request,"hall.html")
+            return hall(request)
 
-        messages.error(request, _('Please correct the error below.'))
-        return render(request,"hall.html")
-    else:
-        return render(request,"get_status.html")
+
+        else:
+            return render(request,"get_status.html")
 
 @login_required
 def hall(request):
-    return render(request,"hall.html")
+    user = request.user
+    qset = []
+    role = user.userprofile.last_status
+
+    if role == 'E':
+        qset = Course.objects.filter(user = user)
+    elif role == 'S':
+        qset = ExamRecord.objects.filter(student = user)
+
+
+    return render(request,"hall.html",{'qset':qset})
 
 @login_required
 @transaction.atomic
 def edit_profile(request):
-    if request.method == 'POST':
-        user_form = UserForm(request.POST, instance=request.user)
-        profile_form = ProfileForm(request.POST, instance=request.user.userprofile)
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            messages.success(request, _('Your profile was successfully updated!'))
-            return my_room(request)
-        else:
-            messages.error(request, _('Please correct the error below.'))
-            return my_room(request)
+    user_form = UserForm(request.POST or None, instance=request.user)
+    profile_form = ProfileForm(request.POST or None, instance=request.user.userprofile)
+    if user_form.is_valid() and profile_form.is_valid():
+        user_form.save()
+        profile_form.save()
+        messages.success(request, _('Your profile was successfully updated!'))
+        return my_room(request)
     else:
-        user_form = UserForm(instance=request.user)
-        profile_form = ProfileForm(instance=request.user.userprofile)
         return render(request, 'edit_profile.html', {
             'user_form': user_form,
             'profile_form': profile_form
@@ -96,16 +100,13 @@ def edit_profile(request):
 
 @login_required
 @transaction.atomic
-def edit_pic(request):
-    if request.method == 'POST':
-        form = ImageUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            m = Profile.objects.get(user=request.user)
-            m.picture = form.cleaned_data['image']
-            m.save()
-            messages.success(request, _('Your profile was successfully updated!'))
-            return my_room(request)
-        else:
-            messages.error(request, _('Please correct the error below.'))
-            return my_room(request)
-    return render(request, 'edit_pic.html')
+def edit_pic(request):    
+    form = ImageUploadForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        m = Profile.objects.get(user=request.user)
+        m.picture = form.cleaned_data['image']
+        m.save()
+        messages.success(request, _('Your profile was successfully updated!'))
+        return my_room(request)
+    else:
+        return render(request, 'edit_pic.html')

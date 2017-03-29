@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ course.name }}</h1>
+<h2>{{ lecture.name }} ({{ lecture.number }})</h2>
+<h3>Экзамен: {{ inout }}</h3>
+<table class="table table-bordered">
+  <tr>
+    <th>Вопрос</th>
+    <th>Иллюстрация</th>
+    <th>Ответ</th>
+  </tr>
+  {% for qx,n in q15 %}
+  <tr>
+    <td>
+      {% if qx.txt %}
+      {{ qx.txt }}
+      {% endif %}
+      <a href="/exam_qa_form/{{lecture.id}}/{{inout}}/{{ n }}" title='edit'>
+      <span class="glyphicon glyphicon-edit"></span>
+     </a>
+
+    </td>
+    <td>
+
+  {% if qx.picture %}
+      <img src="{{ qx.picture.url }}">
+{% endif %}
+  <a href="/exam_qa_form/{{lecture.id}}/{{inout}}/{{ n }}" title='edit'>
+  <span class="glyphicon glyphicon-picture"></span>
+ </a>
+
+    </td>
+    <td>
+      {% if qx.answer %}
+      {{ qx.answer }}
+    {% endif %}
+      <a href="/exam_qa_form/{{lecture.id}}/{{inout}}/{{ n }}" title='edit'>
+      <span class="glyphicon glyphicon-edit"></span>
+     </a>
+
+    </td>
+  </tr>
+   {% endfor %}
+</table>
+
+
+<a href="/course/{{course.id}}/">Вернуться к курсу</a>
+<hr>
+<a href="/lecture/{{course.id}}/{{lecture.id}}/">Вернуться к лекции</a>
+{% endblock %}

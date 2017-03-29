@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Курс:</h1>
+<h2>Название курса/Темы лекций</h3>
+  <form method="post">
+      {% csrf_token %}
+      <table>
+      {{ form.as_table }}
+      <input type="submit" value="Submit" />
+    </table>
+  </form>
+<hr>
+<a href="/hall/">Вернуться в главный зал</a>
+{% endblock %}

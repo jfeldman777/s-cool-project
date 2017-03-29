@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<ol>
+{% for qx in qset %}
+  <li>
+<a href="/course_s/{{qx.id}}">{{ qx.name }}</a>
+  </li>
+{% endfor %}
+</ol>
+{% endblock %}

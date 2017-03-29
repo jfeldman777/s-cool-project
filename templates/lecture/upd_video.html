@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>{{course}}</h1>
+<h2>({{lecture.number}}) {{lecture}}</h2>
+  <form
+   method="post" enctype="multipart/form-data">{% csrf_token %}
+      <p>
+          <input id="id_video" type="file" class="" name="video">
+      </p>
+      <input type="submit" value="Submit" />
+  </form>
+  <hr>
+<a href="/course/{{course.id}}/">Вернуться к курсу</a>
+{% endblock %}

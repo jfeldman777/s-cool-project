@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Курс:</h1>
+  <form method="post">
+      {% csrf_token %}
+      <input type="hidden" name="id" value={{ id }}>
+
+      {{ form.as_p }}
+
+      <input type="submit" value="Submit" />
+  </form>
+<hr>
+<a href="/course/{{course.id}}/">Вернуться к курсу</a>
+
+{% endblock %}

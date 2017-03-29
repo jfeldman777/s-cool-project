@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<h2><a href="{{course.slides}}" target="slides">{{course.name}}</a>
+  <a href="/upd_crs/{{course.id}}/" title='edit'>
+  <span class="glyphicon glyphicon-edit"></span>
+ </a>
+</h2>
+  <ol start="0">
+    {% for lec in lec_05 %}
+    <li><a href="/lecture/{{course.id}}/{{lec.id}}/" title="{{lec.txt}}">
+      {{ lec }}
+        </a>
+       <a href="/upd_lecture/{{course.id}}/{{lec.id}}/" title='edit'>
+       <span class="glyphicon glyphicon-edit"></span>
+      </a>
+        <ul>
+
+          <li>
+
+            {% if lec.video %}
+                <a href="/show_video/{{course.id}}/{{lec.id}}/" title="watch video">
+            <span class="glyphicon glyphicon-eye-open"></span>
+            </a>
+            {% else %}
+              <span class="glyphicon glyphicon-eye-close"></span>
+
+            {% endif %}
+            <a href="/upd_video/{{course.id}}/{{lec.id}}/"
+                title="upload another video" >
+               <span class="glyphicon glyphicon-cloud-upload"></span>
+
+            </a>
+        </li>
+          <li>
+              <a href="/exam/{{course.id}}/{{lec.id}}/0/" title="exam before lecture">
+              <span class="glyphicon glyphicon-log-in"></span>
+              </a>
+                <a href="/exam/{{course.id}}/{{lec.id}}/1/" title="exam after lecture">
+              <span class="glyphicon glyphicon-log-out"></span>
+              </a>
+          </li>
+        </ul>
+    </li>
+    {% endfor %}
+  </ol>
+<hr>
+<a href="/hall/">Вернуться в главный зал</a>
+{% endblock %}

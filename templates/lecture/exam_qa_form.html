@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ course.name }}</h1>
+<h2>{{ lecture.name }} ({{ lecture.number }})</h2>
+<h3>Экзамен: {{ inout }}/Вопрос {{ number }}</h3>
+
+
+  <form enctype="multipart/form-data"
+   method="post" >{% csrf_token %}
+    {{ form.as_p }}
+      <input type="submit" value="Submit" />
+  </form>
+  <hr>
+  <a href="/exam/{{course.id}}/{{lecture.id}}/{{inout}}">
+Вернуться к экзамену
+</a>
+{% endblock %}

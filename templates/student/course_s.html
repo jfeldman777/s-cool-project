@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h2><a href="{{course.slides}}" target="slides" title='see in slides'>{{course.name}}</a>
+  <a href="/enroll_me/{{course.id}}/" title='enroll me/let me in'>
+  <span class="glyphicon glyphicon-check"></span>
+ </a>
+</h2>
+  <ol start="0">
+    {% for lec in lec_05 %}
+    <li>
+    <strong>  {{ lec }} </strong>
+      <br />
+        {{ lec.txt }}
+        <hr />
+        </li>
+        </ul>
+    </li>
+    {% endfor %}
+  </ol>
+<hr>
+<a href="/hall/">Вернуться в главный зал</a>
+{% endblock %}
