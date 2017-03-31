@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Курс:</h3>
+<h2>{{course}}
+  <a href="{{course.slides}}" target="1" title="slides">
+  <span class="glyphicon glyphicon-blackboard"></span>
+  </a>
+</h2>
+<hr>
+<h3>Лекции</h3>
+<ol start="0">
+  {% for lec in lec_05 %}
+  <li>
+ {{ lec }} 
+      </li>
+      </ul>
+  </li>
+  {% endfor %}
+</ol>
+<hr>
+<a href="/hall/">Вернуться в главный зал</a>
+{% endblock %}

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import Http404
+from django.contrib.auth.models import User
 
 from sky.forms import AddCourse, UpdLecture, VideoUploadForm, UpdCourse
 from sky.forms import QuestForm
@@ -8,19 +9,84 @@ from .models import Course
 from .models import Lecture
 from .models import Question
 from .models import ExamRecord
+from .models import UserProfile
 
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.utils.translation import gettext as _
+
+def crs_rec(request,crs):
+    course = Course.objects.get(id=crs)
+    lec_05 = [
+        Lecture.objects.get(course = crs,number='0'),
+        Lecture.objects.get(course = crs,number='1'),
+        Lecture.objects.get(course = crs,number='2'),
+        Lecture.objects.get(course = crs,number='3'),
+        Lecture.objects.get(course = crs,number='4'),
+        Lecture.objects.get(course = crs,number='5'),
+        ]
+    d = {
+        'lec_05':lec_05,
+        'course':course
+    }
+    return render(request,'student/crs_rec.html',d)
+
+def crs_demo(request,crs):
+    course = Course.objects.get(id=crs)
+    profile = UserProfile.objects.get(user=course.user)
+    first_name = User.objects.get(id=profile.user.id).first_name
+    last_name = User.objects.get(id=profile.user.id).last_name
+    lec_05 = [
+        Lecture.objects.get(course = crs,number='0'),
+        Lecture.objects.get(course = crs,number='1'),
+        Lecture.objects.get(course = crs,number='2'),
+        Lecture.objects.get(course = crs,number='3'),
+        Lecture.objects.get(course = crs,number='4'),
+        Lecture.objects.get(course = crs,number='5'),
+        ]
+    d = {
+        'course':course,
+        'profile':profile,
+        'first_name':first_name,
+        'last_name':last_name,
+        'lec_05':lec_05,
+    }
+    return render(request,'student/crs_demo.html',d)
+
+def crs_down(request, crs):
+    course = Course.objects.get(id=crs)
+    stu_crs = ExamRecord.objects.get(student = request.user,
+                course = course)
+
+    stu_crs.active = False
+    stu_crs.save()
+    return render(request,"student/enrolled.html",
+            {
+            'started':'long ago',
+            'course':course
+            })
+
+def crs_up(request, crs):
+    return enroll_me(request,crs)
 
 def enroll_me(request,crs):
     course = Course.objects.get(id=crs)
     stu_crs, created = ExamRecord.objects.get_or_create(student = request.user,
                 course = course)
     if created:
-        return render(request,"student/enrolled.html",{'started':'just now'})
+        return render(request,"student/enrolled.html",
+            {
+            'started':'just now',
+            'course':course
+            })
     else:
-        return render(request,"student/enrolled.html",{'started':'long ago'})
+        stu_crs.active = True
+        stu_crs.save()
+        return render(request,"student/enrolled.html",
+            {
+            'started':'again',
+            'course':course
+            })
 
 def course_s(request,crs):
     return course(request,crs,'student/course_s.html')
@@ -172,8 +238,6 @@ def create_crs(request):
             slides = slides)
         course.save()
 
-        messages.info(request, '-3-')
-
         lec_0 = Lecture(
             course = course,
             name = c_name,
@@ -238,7 +302,6 @@ def course(request,crs,templ="course.html"):
         }
     )
 
-# ????????????????????????????????????????
 def lecture(request,crs,lec):
     course = Course.objects.get(id=crs)
     lecture = Lecture.objects.get(id=lec)

@@ -76,11 +76,26 @@ def hall(request):
 
     if role == 'E':
         qset = Course.objects.filter(user = user)
+        return render(request,"hall.html",{'qset':qset})
+
     elif role == 'S':
-        qset = ExamRecord.objects.filter(student = user)
+        qset1 = ExamRecord.objects.filter(student = user, active=True)
+        p1 = [x['course_id'] for x in qset1.values()]
 
+        qset2 = ExamRecord.objects.filter(student = user, active=False)
+        p2 = [x['course_id'] for x in qset2.values()]
 
-    return render(request,"hall.html",{'qset':qset})
+        qset3 = Course.objects.filter(approved = True)
+        list3 = list(qset3)
+
+        list4 = [x for x in list3 if x.id not in p1 if x.id not in p2]
+        list1 = [x for x in list3 if x.id in p1]
+        list2 = [x for x in list3 if x.id in p2]
+
+        return render(request,"hall.html",
+            {
+            'qset1':list1,'qset2':list2,'qset4':list4,
+            })
 
 @login_required
 @transaction.atomic
@@ -100,7 +115,7 @@ def edit_profile(request):
 
 @login_required
 @transaction.atomic
-def edit_pic(request):    
+def edit_pic(request):
     form = ImageUploadForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         m = Profile.objects.get(user=request.user)

@@ -22,6 +22,7 @@ from .views import hall, edit_pic, get_status, set_status
 from snow.views import exam_qa_form, all_courses, course_s
 from snow.views import create_crs, lecture, upd_crs, exam, enroll_me
 from snow.views import course, upd_video, show_video, upd_lecture
+from snow.views import crs_up, crs_down, crs_rec, crs_demo
 
 from registration.backends.hmac.views import RegistrationView
 from registration.forms import RegistrationFormUniqueEmail
@@ -55,6 +56,12 @@ urlpatterns += [
 
     url(r'^enroll_me/(?P<crs>\d+)', enroll_me, name="enroll_me"),
     url(r'^course_s/(?P<crs>\d+)', course_s, name="course_s"),
+
+    url(r'^crs_up/(?P<crs>\d+)/', crs_up, name="crs_up"),
+    url(r'^crs_down/(?P<crs>\d+)/', crs_down, name="crs_down"),
+
+    url(r'^crs_demo/(?P<crs>\d+)/', crs_demo, name="crs_demo"),
+    url(r'^crs_rec/(?P<crs>\d+)/', crs_rec, name="crs_rec"),
 
     url(r'^course/(?P<crs>\d+)', course, name="course"),
     url(r'^lecture/(?P<crs>\d+)/(?P<lec>\d+)', lecture, name="lecture"),
