@@ -79,6 +79,7 @@ class Course(models.Model):
     slides = models.URLField(null=True, blank=False)
 
     approved = models.BooleanField(default=False)
+    completed = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

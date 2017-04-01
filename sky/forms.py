@@ -34,6 +34,7 @@ class UpdCourse(forms.Form):
         max_length=100)
     slides = forms.URLField(
         widget=forms.TextInput(attrs={'size':50}))
+    completed = forms.BooleanField()
     pass
 
 

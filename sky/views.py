@@ -75,8 +75,19 @@ def hall(request):
     role = user.userprofile.last_status
 
     if role == 'E':
-        qset = Course.objects.filter(user = user)
-        return render(request,"hall.html",{'qset':qset})
+        q_approved = Course.objects.filter(user = user,approved=True)
+        q_completed = Course.objects.filter(user = user,approved=False,completed=True)
+        q_started = Course.objects.filter(user = user,approved=False,completed=False)
+        q_common = Course.objects.exclude(user = user).filter(completed=True)
+
+        d = {
+            'q_approved':q_approved,
+            'q_completed':q_completed,
+            'q_started':q_started,
+            'q_common':q_common
+        }
+
+        return render(request,"hall.html",d)
 
     elif role == 'S':
         qset1 = ExamRecord.objects.filter(student = user, active=True)

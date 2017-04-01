@@ -32,8 +32,7 @@
  </ol>
  <hr>
  Мои курсы - Пассивные
-<ol>
-  {% for obj in qset2 %}
+<ol>{% for obj in qset2 %}
   <li>{{ obj }}
      <a href="/crs_up/{{obj.id}}/">
   <span class="glyphicon glyphicon-arrow-up"></span>
@@ -55,30 +54,33 @@
 </li>
   {% endfor %}
 </ol>
+
+
+
 {% elif user.userprofile.last_status == 'E' %}
 <a href="/create_crs/">создать курс</a>
 <hr>
 Мои курсы - Одобренные
 <ol>
-  {% for obj in qset %}
+  {% for obj in q_approved %}
   <li><a href="/course/{{obj.id}}">{{ obj }}</a>
   {% endfor %}
 </ol>
 Мои курсы - Завершенные
 <ol>
-  {% for obj in qset %}
+  {% for obj in q_completed %}
   <li><a href="/course/{{obj.id}}">{{ obj }}</a>
   {% endfor %}
 </ol>
 Мои курсы - начатые
 <ol>
-  {% for obj in qset %}
+  {% for obj in q_started %}
   <li><a href="/course/{{obj.id}}">{{ obj }}</a>
   {% endfor %}
 </ol>
 Курсы других преподавателей
 <ol>
-  {% for obj in qset %}
+  {% for obj in q_common %}
   <li><a href="/course/{{obj.id}}">{{ obj }}</a>
   {% endfor %}
 </ol>

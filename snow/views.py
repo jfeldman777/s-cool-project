@@ -207,6 +207,7 @@ def upd_crs(request,crs):
     if form.is_valid():
         course.name = form.cleaned_data['name']
         course.slides = form.cleaned_data['slides']
+        course.completed = form.cleaned_data['completed']
         course.save()
 
         messages.success(request,
@@ -217,6 +218,7 @@ def upd_crs(request,crs):
         d = {
             'name':course.name,
             'slides':course.slides,
+            'completed':course.completed
         }
         form = UpdCourse(d)
         return render(request,
