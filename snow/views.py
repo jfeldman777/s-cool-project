@@ -84,7 +84,7 @@ def rec2fwd(request,crs):
             if q1.answer == a1 and q2.answer == a2 and \
                 q3.answer == a3 and q4.answer == a4 and q5.answer == a5:
                 record.current = page+1
-            else:
+            elif IN_OUT[page] > 0 :
                 record.current = page-1
             record.save()
         else:
@@ -93,11 +93,10 @@ def rec2fwd(request,crs):
         return rec2page(request,record.id)
     else:
         record.current = page+1
-
     record.save()
     return rec2page(request,record.id)
 
-def page_q(request,crs,lec,inout):
+def page_q(request,crs,lec,inout,page=0):
     q1 = Question.objects.get(lecture=lec,in_out=inout,number='1')
     q2 = Question.objects.get(lecture=lec,in_out=inout,number='2')
     q3 = Question.objects.get(lecture=lec,in_out=inout,number='3')
@@ -117,16 +116,18 @@ def page_q(request,crs,lec,inout):
         't3':q3.txt,
         't4':q4.txt,
         't5':q5.txt,
-        'crs':crs
+        'crs':crs,
+        'current':CURRENT_PAGE[page],
         }
     return render(request,'student/page_q.html',d)
 
-def page_v(request,crs,lec):
+def page_v(request,crs,lec,page=0):
     lecture = Lecture.objects.get(id=lec)
     course = Course.objects.get(id=crs)
     d = {
         'course':course,
-        'lecture':lecture
+        'lecture':lecture,
+        'current':CURRENT_PAGE[page],
     }
     return render(request,'student/page_v.html',d)
 
@@ -141,11 +142,11 @@ def rec2page(request,rec):
     lec = lecture.id
 
     if page in [3,6,9,12,15]:
-        return page_v(request,crs,lec)
+        return page_v(request,crs,lec,page)
     elif page in [0,1,4,7,10,14]:
-        return page_q(request,crs,lec,'0')
+        return page_q(request,crs,lec,'0',page)
     else:
-        return page_q(request,crs,lec,'1')
+        return page_q(request,crs,lec,'1',page)
 
 
 def crs_rec(request,crs):
