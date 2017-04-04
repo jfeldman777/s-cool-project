@@ -57,17 +57,22 @@ def rec2back(request,crs):
 def rec2fwd(request,crs):
     course = Course.objects.get(id=crs)
     record = ExamRecord.objects.get(course_id=course.id,student_id=request.user)
-    num = record.current
-    lec = N_PAGES[num]
-    inout = str(IN_OUT[num])
+    page = record.current
+    lec_n = N_PAGES[page]
+
+    lecture = Lecture.objects.get(course_id=crs,number=str(lec_n))
+    lec = lecture.id
+
+    inout = str(IN_OUT[page])
     if request.method == 'POST':
         form = TestDone(request.POST)
         if form.is_valid() or True:
-            a_1 = form.cleaned_data['a_1']
-            a_2 = form.cleaned_data['a_2']
-            a_3 = form.cleaned_data['a_3']
-            a_4 = form.cleaned_data['a_4']
-            a_5 = form.cleaned_data['a_5']
+
+            a1 = form.cleaned_data['a_1']
+            a2 = form.cleaned_data['a_2']
+            a3 = form.cleaned_data['a_3']
+            a4 = form.cleaned_data['a_4']
+            a5 = form.cleaned_data['a_5']
 
             q1 = Question.objects.get(lecture=lec,in_out=inout,number='1')
             q2 = Question.objects.get(lecture=lec,in_out=inout,number='2')
@@ -75,21 +80,19 @@ def rec2fwd(request,crs):
             q4 = Question.objects.get(lecture=lec,in_out=inout,number='4')
             q5 = Question.objects.get(lecture=lec,in_out=inout,number='5')
 
-            print(a_1)
-            print(q1.answer)
-
 
             if q1.answer == a1 and q2.answer == a2 and \
                 q3.answer == a3 and q4.answer == a4 and q5.answer == a5:
-                record.current = num+1
+                record.current = page+1
             else:
-                record.current = num-1
+                record.current = page-1
+            record.save()
         else:
             messages.error(request, \
             _('Необходимо заполнить все поля'))
         return rec2page(request,record.id)
     else:
-        record.current = num+1
+        record.current = page+1
 
     record.save()
     return rec2page(request,record.id)
@@ -104,11 +107,11 @@ def page_q(request,crs,lec,inout):
     form = TestDone();
     d = {
         'form':form,
-        'p1':q1.picture.url,
-        'p2':q2.picture.url,
-        'p3':q3.picture.url,
-        'p4':q4.picture.url,
-        'p5':q5.picture.url,
+        'p1':q1.picture or None,
+        'p2':q2.picture or None,
+        'p3':q3.picture or None,
+        'p4':q4.picture or None,
+        'p5':q5.picture or None,
         't1':q1.txt,
         't2':q2.txt,
         't3':q3.txt,

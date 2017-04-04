@@ -26,18 +26,24 @@
                 <a href="/" title="Home">
                     <span class="glyphicon glyphicon-home"></span>
                 </a>
+                {% if not user.userprofile %}
+                  no profile?
 
-                <a href="/hall/" title="You are Expert">
-                    <span class="glyphicon glyphicon-king"></span>
-                </a>
+                {% elif user.userprofile.last_status == 'E' %}
+                      <a href="/hall/" title="You are Expert">
+                          <span class="glyphicon glyphicon-king"></span>
+                      </a>
+                {% elif user.userprofile.last_status == 'S' %}
+                      <a href="/hall/" title="You are Student">
+                          <span class="glyphicon glyphicon-knight"></span>
+                      </a>
 
-                <a href="/hall/" title="You are Student">
-                    <span class="glyphicon glyphicon-knight"></span>
-                </a>
+                {% elif user.userprofile.last_status == 'T' %}
+                      <a href="/hall/" title="You are Tutor">
+                          <span class="glyphicon glyphicon-tower"></span>
+                      </a>
 
-                <a href="/hall/" title="You are Tutor">
-                    <span class="glyphicon glyphicon-tower"></span>
-                </a>
+                {% endif %}
 
               <hr>
               {% block content %}

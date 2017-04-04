@@ -8,7 +8,11 @@
 
   <div class="fieldWrapper">
       {{ form.a_1.errors }}
-            <img src="{{p1}}"><br />
+          {% if not p1 == 'False' %}
+            <img src="{{p1.url}}">
+            {% endif %}
+
+            <br />
       <label for="{{ form.a_1.id_for_label }}">
       {{t1}}
     </label><br />
@@ -17,7 +21,10 @@
 
   <div class="fieldWrapper">
       {{ form.a_2.errors }}
-            <img src="{{p2}}"><br />
+    {% if not p2 == 'False' %}
+            <img src="{{p2.url}}">
+  {% endif %}
+            <br />
       <label for="{{ form.a_2.id_for_label }}">
       {{t2}}
     </label><br />
@@ -26,7 +33,10 @@
 
   <div class="fieldWrapper">
       {{ form.a_3.errors }}
-            <img src="{{p3}}"><br />
+    {% if not p3 == 'False' %}
+            <img src="{{p3.url}}">
+  {% endif %}
+            <br />
       <label for="{{ form.a_3.id_for_label }}">
       {{t3}}
     </label><br />
@@ -34,22 +44,30 @@
   </div>
 
   <div class="fieldWrapper">
+      {{ form.a_4.errors }}
+          {% if not p4 == 'False' %}
+            <img src="{{p4.url}}">
+              {% endif %}
+            <br />
+      <label for="{{ form.a_4.id_for_label }}">
+      {{t4}}
+    </label><br />
+      {{ form.a_4 }}
+  </div>
+
+  <div class="fieldWrapper">
       {{ form.a_5.errors }}
-            <img src="{{p5}}"><br />
+    {% if not p5 == 'False' %}
+            <img src="{{p5.url}}">
+  {% endif %}
+            <br />
       <label for="{{ form.a_5.id_for_label }}">
       {{t5}}
     </label><br />
       {{ form.a_5 }}
   </div>
 
-  <div class="fieldWrapper">
-      {{ form.a_4.errors }}
-            <img src="{{p4}}"><br />
-      <label for="{{ form.a_4.id_for_label }}">
-      {{t4}}
-    </label><br />
-      {{ form.a_4 }}
-  </div>
+
 
 <a href="/rec2back/{{crs}}/">
   <span class="glyphicon glyphicon-backward" title="previous page"></span>
