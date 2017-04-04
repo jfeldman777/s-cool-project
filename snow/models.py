@@ -142,23 +142,7 @@ class ExamRecord(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     student = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    in_0 = models.BooleanField(default = False)
-    out_0 = models.BooleanField(default = False)
-
-    in_1 = models.BooleanField(default = False)
-    out_1 = models.BooleanField(default = False)
-
-    in_2 = models.BooleanField(default = False)
-    out_2 = models.BooleanField(default = False)
-
-    in_3 = models.BooleanField(default = False)
-    out_3 = models.BooleanField(default = False)
-
-    in_4 = models.BooleanField(default = False)
-    out_4 = models.BooleanField(default = False)
-
-    in_5 = models.BooleanField(default = False)
-    out_5 = models.BooleanField(default = False)
+    current = models.IntegerField(default=0)
 
     active = models.BooleanField(default=True)
 

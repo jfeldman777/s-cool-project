@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Курс:</h3>
+<h2>{{course}}</h2>
+
+<h3>Лекция №{{lecture.number}}</h3>
+<h2>{{lecture}}</h2>
+
+
+
+  {% if lecture.video %}
+  <video name='video' controls width='100%' height='100%'>
+  <source src="{{lecture.video.url}}" type="video/mp4"></source>
+  </video>
+  <hr>
+  <a href="/rec2back/{{course.id}}/">
+    <span class="glyphicon glyphicon-backward" title="previous page">
+    </span></a> &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="/crs_rec/{{course.id}}/">
+    <span class="glyphicon glyphicon-eject" title="course contents">
+    </span></a> &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="/rec2fwd/{{course.id}}/">
+    <span class="glyphicon glyphicon-forward" title="next page">
+    </span>
+  {% else %}
+    <span class="glyphicon glyphicon-eye-close"></span>
+  {% endif %}
+
+<hr>
+<a href="/hall/">Вернуться в главный зал</a>
+{% endblock %}

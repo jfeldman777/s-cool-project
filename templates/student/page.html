@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Курс:</h3>
+<h2>{{course}}</h2>
+{% if lecture.number > 0 %}
+<h3>Лекция №{{lecture.number}}</h3>
+<h2>{{lecture}}</h2>
+{% endif %}
+
+{% if type == 2 %}
+  {% if lecture.video %}
+  <video name='video' controls width='50%' height='40%'>
+  <source src="{{lecture.video.url}}" type="video/mp4"></source>
+  </video>
+  {% else %}
+    <span class="glyphicon glyphicon-eye-close"></span>
+  {% endif %}
+  <hr>
+  <a href="/rec2back/{{course.id}}/">
+    <span class="glyphicon glyphicon-backward" title="previous page">
+    </span></a> &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="/crs_rec/{{course.id}}/">
+    <span class="glyphicon glyphicon-eject" title="course contents">
+    </span></a> &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="/rec2fwd/{{course.id}}/">
+    <span class="glyphicon glyphicon-forward" title="next page">
+    </span>
+
+{% else %}
+<h3>
+{% if type == 1 %}
+Входной
+{% else %}
+ВЫходной
+{% endif %}
+ тест
+</h3>
+
+
+<form method="post" action="/rec2fwd/{{course.id}}/">
+  {% csrf_token %}
+<ol>
+
+
+
+{% for qx,i in qsi %}
+<li>
+<h3>{{qx.txt}}</h3>
+<img src="{{qx.picture.url}}">
+<input type=text id="id_a_{{i}}" name="a_{{i}}">
+</li>
+{% endfor %}
+
+
+    <ol>
+<a href="/rec2back/{{course.id}}/">
+  <span class="glyphicon glyphicon-backward" title="previous page"></span>
+</a> &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/crs_rec/{{course.id}}/">
+  <span class="glyphicon glyphicon-eject" title="course contents"></span>
+</a> &nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="submit" title="next page">  <span class="glyphicon glyphicon-forward"></span></button>
+
+  </form>
+{% endif %}
+<hr>
+<a href="/hall/">Вернуться в главный зал</a>
+{% endblock %}

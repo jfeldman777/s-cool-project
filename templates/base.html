@@ -10,15 +10,35 @@
     </head>
 
     <body>
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                <h1>  {{ message }} </h1>
+              </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
       <div class="container">
         <div class="jumbotron">
-
-
-
 
                 <a href="/" title="Home">
                     <span class="glyphicon glyphicon-home"></span>
                 </a>
+
+                <a href="/hall/" title="You are Expert">
+                    <span class="glyphicon glyphicon-king"></span>
+                </a>
+
+                <a href="/hall/" title="You are Student">
+                    <span class="glyphicon glyphicon-knight"></span>
+                </a>
+
+                <a href="/hall/" title="You are Tutor">
+                    <span class="glyphicon glyphicon-tower"></span>
+                </a>
+
               <hr>
               {% block content %}
               {% endblock content %}
@@ -32,15 +52,7 @@
         </div>
       </div>
 
-    {% if messages %}
-      <ul class="messages">
-        {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                {{ message }}
-            </li>
-        {% endfor %}
-      </ul>
-    {% endif %}
+
 
     </body>
 </html>

@@ -20,9 +20,11 @@ from .views import index, home, my_room, edit_profile
 from .views import hall, edit_pic, get_status, set_status
 
 from snow.views import exam_qa_form, all_courses, course_s
-from snow.views import create_crs, lecture, upd_crs, exam, enroll_me
+from snow.views import create_crs, lecture, upd_crs, exam, enroll_me,\
+                        ex_fwd, ex_back, exam_pic_form
 from snow.views import course, upd_video, show_video, upd_lecture
-from snow.views import crs_up, crs_down, crs_rec, crs_demo
+from snow.views import crs_up, crs_down, crs_rec
+from snow.views import crs_demo, rec2page, rec2back, rec2fwd
 
 from registration.backends.hmac.views import RegistrationView
 from registration.forms import RegistrationFormUniqueEmail
@@ -38,6 +40,10 @@ if settings.DEBUG:#в этом режиме медиафайлы берутся 
 urlpatterns += [
     url(r'^admin/', admin.site.urls),
 
+    url(r'^rec2fwd/(?P<crs>\d+)/', rec2fwd, name="rec2fwd"),
+    url(r'^rec2back/(?P<crs>\d+)/', rec2back, name="rec2back"),
+    url(r'^rec2page/(?P<rec>\d+)/', rec2page, name="rec2page"),
+
     url(r'^hall/', hall, name="hall"),
     url(r'^my_room/', my_room, name="my_room"),
     url(r'^edit_profile/', edit_profile, name="edit_profile"),
@@ -47,6 +53,8 @@ urlpatterns += [
 
     url(r'^create_crs/', create_crs, name="create_crs"),
     url(r'^upd_crs/(?P<crs>\d+)/', upd_crs, name="upd_crs"),
+
+
 
     url(r'^upd_lecture/(?P<crs>\d+)/(?P<lec>\d+)/', upd_lecture, name="upd_lecture"),
     url(r'^upd_video/(?P<crs>\d+)/(?P<lec>\d+)/', upd_video, name="upd_video"),
@@ -66,9 +74,16 @@ urlpatterns += [
     url(r'^course/(?P<crs>\d+)', course, name="course"),
     url(r'^lecture/(?P<crs>\d+)/(?P<lec>\d+)', lecture, name="lecture"),
     url(r'^exam/(?P<crs>\d+)/(?P<lec>\d+)/(?P<inout>[01]{1})', exam, name="exam"),
+
+    url(r'^ex_fwd/(?P<lec>\d+)/(?P<inout>[01]{1})', ex_fwd, name="ex_fwd"),
+    url(r'^ex_back/(?P<lec>\d+)/(?P<inout>[01]{1})', ex_back, name="ex_back"),
+
+
     url(r'^exam_qa_form/(?P<lec>\d+)/(?P<inout>[01]{1})/(?P<num>\d+)',
                         exam_qa_form, name="exam_qa_form"),
 
+    url(r'^exam_pic_form/(?P<lec>\d+)/(?P<inout>[01]{1})/(?P<num>\d+)',
+                        exam_pic_form, name="exam_pic_form"),
 
     url(r'^accounts/profile/', home, name="home"),
     #по этому адресу вы будете отправлены при активации аккаунта линком из почты

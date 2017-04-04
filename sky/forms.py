@@ -1,4 +1,6 @@
 from django import forms
+from django.forms import ClearableFileInput
+
 from django.contrib.auth.models import User
 from snow.models import UserProfile as Profile
 from snow.models import Question
@@ -17,10 +19,20 @@ class ProfileForm(forms.ModelForm):
 class QuestForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ('txt','answer','picture')
+        fields = ('txt','answer')
+
+class CustomClearableFileInput(ClearableFileInput):
+    template_with_initial = (
+        '%(initial_text)s: <a href="%(initial_url)s">%(initial)s</a> '
+        '%(clear_template)s<br />%(input_text)s: %(input)s'
+    )
+
+    template_with_clear = '%(clear)s <label for="%(clear_checkbox_id)s">%(clear_checkbox_label)s</label>'
 
 class ImageUploadForm(forms.Form):
-    image = forms.ImageField()
+    image = forms.ImageField(
+        required=False, widget=CustomClearableFileInput
+        )
 
 class VideoUploadForm(forms.Form):
     video = forms.FileField()
@@ -37,7 +49,12 @@ class UpdCourse(forms.Form):
     completed = forms.BooleanField()
     pass
 
-
+class TestDone(forms.Form):
+    a_1 = forms.IntegerField()
+    a_2 = forms.IntegerField()
+    a_3 = forms.IntegerField()
+    a_4 = forms.IntegerField()
+    a_5 = forms.IntegerField()
 
 class UpdLecture(forms.Form):
     name = forms.CharField(label='Lecture',

@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-<h2><a href="{{course.slides}}" target="slides">{{course.name}}</a>
+<h2>{{course.name}}
+  <a href="{{course.slides}}" target="1" title="slides">
+  <span class="glyphicon glyphicon-blackboard"></span>
+  </a>
   <a href="/upd_crs/{{course.id}}/" title='edit'>
   <span class="glyphicon glyphicon-edit"></span>
  </a>

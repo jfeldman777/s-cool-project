@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form method="post" action="/rec2fwd/{{crs}}/">
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+
+
+  <div class="fieldWrapper">
+      {{ form.a_1.errors }}
+            <img src="{{p1}}"><br />
+      <label for="{{ form.a_1.id_for_label }}">
+      {{t1}}
+    </label><br />
+      {{ form.a_1 }}
+  </div>
+
+  <div class="fieldWrapper">
+      {{ form.a_2.errors }}
+            <img src="{{p2}}"><br />
+      <label for="{{ form.a_2.id_for_label }}">
+      {{t2}}
+    </label><br />
+      {{ form.a_2 }}
+  </div>
+
+  <div class="fieldWrapper">
+      {{ form.a_3.errors }}
+            <img src="{{p3}}"><br />
+      <label for="{{ form.a_3.id_for_label }}">
+      {{t3}}
+    </label><br />
+      {{ form.a_3 }}
+  </div>
+
+  <div class="fieldWrapper">
+      {{ form.a_5.errors }}
+            <img src="{{p5}}"><br />
+      <label for="{{ form.a_5.id_for_label }}">
+      {{t5}}
+    </label><br />
+      {{ form.a_5 }}
+  </div>
+
+  <div class="fieldWrapper">
+      {{ form.a_4.errors }}
+            <img src="{{p4}}"><br />
+      <label for="{{ form.a_4.id_for_label }}">
+      {{t4}}
+    </label><br />
+      {{ form.a_4 }}
+  </div>
+
+<a href="/rec2back/{{crs}}/">
+  <span class="glyphicon glyphicon-backward" title="previous page"></span>
+</a> &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/crs_rec/{{crs}}/">
+  <span class="glyphicon glyphicon-eject" title="course contents"></span>
+</a> &nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="submit" title="next page">  <span class="glyphicon glyphicon-forward"></span></button>
+
+  </form>
+
+<hr>
+<a href="/hall/">Вернуться в главный зал</a>
+{% endblock %}

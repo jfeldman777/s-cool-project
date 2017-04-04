@@ -9,6 +9,7 @@ from django.db import transaction
 from .forms import UserForm, ProfileForm, ImageUploadForm, AskStatus
 from django.contrib import messages
 from django.utils.translation import gettext as _
+from django.shortcuts import redirect
 
 def index(request):
     return render(request,"index.html")
@@ -72,7 +73,12 @@ def get_status(request):
 def hall(request):
     user = request.user
     qset = []
-    role = user.userprofile.last_status
+    try:
+        role = user.userprofile.last_status
+    except:
+        messages.error(request, \
+_('Прежде чем вас допустят в общий зал надо зайтив личный кабинет и заполнить личные данные'))
+        return redirect('/')
 
     if role == 'E':
         q_approved = Course.objects.filter(user = user,approved=True)
@@ -127,6 +133,7 @@ def edit_profile(request):
 @login_required
 @transaction.atomic
 def edit_pic(request):
+    m,created = Profile.objects.get_or_create(user=request.user)
     form = ImageUploadForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         m = Profile.objects.get(user=request.user)
@@ -135,4 +142,5 @@ def edit_pic(request):
         messages.success(request, _('Your profile was successfully updated!'))
         return my_room(request)
     else:
-        return render(request, 'edit_pic.html')
+        form = ImageUploadForm(initial={'image':m.picture})
+        return render(request, 'edit_pic.html',{'form':form})

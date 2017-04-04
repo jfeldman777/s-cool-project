@@ -1,23 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
 <h3>Курс:</h3>
-<h2>{{course}}
+<h2>
   <a href="{{course.slides}}" target="1" title="slides">
   <span class="glyphicon glyphicon-blackboard"></span>
+  </a>
+  {{course}}
+  <a href="/show_video/{{course.id}}/{{lec}}/" target="1" title="long video">
+  <span class="glyphicon glyphicon-facetime-video"></span>
   </a>
 </h2>
 <hr>
 <h3>Лекции</h3>
-<ol start="0">
-  {% for lec in lec_05 %}
+<ol>
+  {% for lec in lec_15 %}
   <li>
- <b>{{ lec }}</b> <br />
-      {{ lec.txt }}
-      </li>
-      </ul>
+ {{ lec }}
+
   </li>
   {% endfor %}
 </ol>
+<hr>
 
 <hr>
 <h3>Преподаватель:</h3><h2> {{first_name}} {{last_name}}</h2>

@@ -15,17 +15,17 @@
       {% if qx.txt %}
       {{ qx.txt }}
       {% endif %}
-      <a href="/exam_qa_form/{{lecture.id}}/{{inout}}/{{ n }}" title='edit'>
+      <a href="/exam_qa_form/{{lecture.id}}/{{inout}}/{{ n }}/" title='edit'>
       <span class="glyphicon glyphicon-edit"></span>
      </a>
 
     </td>
     <td>
 
-  {% if qx.picture %}
+  {% if qx.picture and qx.picture.name != 'False' %}
       <img src="{{ qx.picture.url }}">
 {% endif %}
-  <a href="/exam_qa_form/{{lecture.id}}/{{inout}}/{{ n }}" title='edit'>
+  <a href="/exam_pic_form/{{lecture.id}}/{{inout}}/{{ n }}/" title='edit'>
   <span class="glyphicon glyphicon-picture"></span>
  </a>
 
@@ -34,7 +34,7 @@
       {% if qx.answer %}
       {{ qx.answer }}
     {% endif %}
-      <a href="/exam_qa_form/{{lecture.id}}/{{inout}}/{{ n }}" title='edit'>
+      <a href="/exam_qa_form/{{lecture.id}}/{{inout}}/{{ n }}/" title='edit'>
       <span class="glyphicon glyphicon-edit"></span>
      </a>
 
@@ -42,9 +42,18 @@
   </tr>
    {% endfor %}
 </table>
+<a href="/ex_back/{{lecture.id}}/{{inout}}/">
+  <span class="glyphicon glyphicon-backward" title="previous page">
+  </span></a> &nbsp;&nbsp;&nbsp;&nbsp;
 
+<a href="/course/{{course.id}}/">
+  <span class="glyphicon glyphicon-eject" title="course contents">
+  </span></a> &nbsp;&nbsp;&nbsp;&nbsp;
 
-<a href="/course/{{course.id}}/">Вернуться к курсу</a>
+<a href="/ex_fwd/{{lecture.id}}/{{inout}}/">
+  <span class="glyphicon glyphicon-forward" title="next page">
+  </span>
+
 <hr>
 <a href="/lecture/{{course.id}}/{{lecture.id}}/">Вернуться к лекции</a>
 {% endblock %}
