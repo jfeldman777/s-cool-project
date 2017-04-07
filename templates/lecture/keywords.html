@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ course.name }}</h1>
+  <form
+   method="post" >{% csrf_token %}
+   <table>
+    {{ form.as_table }}
+  </table>
+      <input type="submit" value="Submit" />
+
+  </form>
+  <hr>
+  <a href="/course/{{course.id}}/">
+Вернуться к экзамену
+</a>
+{% endblock %}

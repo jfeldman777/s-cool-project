@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ course.name }}</h1>
+<h3>Экзамен: финальный</h3>
+
+<form method="post">
+  {% csrf_token %}
+{{ formset.management_form }}
+
+{% for form,pic in z %}
+
+  <div class="fieldWrapper">
+      {{ form.answer.errors }}
+      <{{pic}}>
+      <br />
+      <label for="{{ form.answer.id_for_label }}">{{form.txt}}</label><br />
+      {{ form.answer }}
+  </div>
+
+{% endfor %}
+
+      <button type="submit" title="next page">  <span class="glyphicon glyphicon-forward"></span></button>
+
+    </form>
+{% endblock %}

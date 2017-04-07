@@ -3,23 +3,33 @@ from django.forms import ClearableFileInput
 
 from django.contrib.auth.models import User
 from snow.models import UserProfile as Profile
-from snow.models import Question
+from snow.models import Question, Course
 
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email')
 
+class KwForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ('kw_before','kw_after')
+
 class ProfileForm(forms.ModelForm):
+    site = forms.CharField(required=False)
     class Meta:
         model = Profile
-        #fields = ('bio', 'location', 'birth_date', 'picture','site')
         fields = ('bio', 'location', 'birth_date', 'site')
 
 class QuestForm(forms.ModelForm):
     class Meta:
         model = Question
         fields = ('txt','answer')
+
+class BigQuestForm(forms.Form):
+        txt = forms.CharField(disabled=True)
+        answer = forms.IntegerField(required=False)
+
 
 class CustomClearableFileInput(ClearableFileInput):
     template_with_initial = (
@@ -35,7 +45,9 @@ class ImageUploadForm(forms.Form):
         )
 
 class VideoUploadForm(forms.Form):
-    video = forms.FileField()
+    video = forms.FileField(
+        required=False, widget=CustomClearableFileInput
+    )
 
 class AskStatus(forms.Form):
     role = forms.CharField()

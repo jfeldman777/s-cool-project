@@ -2,8 +2,11 @@ from django.shortcuts import render
 from django.http import Http404
 from django.contrib.auth.models import User
 
+from django.forms import formset_factory
+
 from sky.forms import AddCourse, UpdLecture, VideoUploadForm, UpdCourse
-from sky.forms import QuestForm, TestDone, ImageUploadForm
+from sky.forms import QuestForm, BigQuestForm, \
+        TestDone, ImageUploadForm, KwForm
 
 from .models import Course
 from .models import Lecture
@@ -18,28 +21,29 @@ from django.utils.translation import gettext as _
 
 CURRENT_PAGE = [
     'вы зарегистрировались на этот курс',#0
-    'вы приступили к сдаче входного теста',#1
-    'Лекция №1: вы приступили к сдаче входного теста',#2
-    'Лекция №1: вы приступили к просмотру видео',#3
-    'Лекция №1: вы приступили к сдаче вЫходного теста',#4
-    'Лекция №2: вы приступили к сдаче входного теста',#5
-    'Лекция №2: вы приступили к просмотру видео',#6
-    'Лекция №2: вы приступили к сдаче вЫходного теста',#7
-    'Лекция №3: вы приступили к сдаче входного теста',#8
-    'Лекция №3: вы приступили к просмотру видео',#9
-    'Лекция №3: вы приступили к сдаче вЫходного теста',#10
-    'Лекция №4: вы приступили к сдаче входного теста',#11
-    'Лекция №4: вы приступили к просмотру видео',#12
-    'Лекция №4: вы приступили к сдаче вЫходного теста',#13
-    'Лекция №5: вы приступили к сдаче входного теста',#14
-    'Лекция №5: вы приступили к просмотру видео',#15
-    'Лекция №5: вы приступили к сдаче вЫходного теста',#16
-    'вы приступили к сдаче финального теста',#17
-    'вы сдали финальный тест - курс закрыт'#18
+    'Лекция №1: вы приступили к сдаче входного теста',#1
+    'Лекция №1: вы приступили к просмотру видео',#2
+    'Лекция №1: вы приступили к сдаче вЫходного теста',#3
+    'Лекция №2: вы приступили к сдаче входного теста',#4
+    'Лекция №2: вы приступили к просмотру видео',#5
+    'Лекция №2: вы приступили к сдаче вЫходного теста',#6
+    'Лекция №3: вы приступили к сдаче входного теста',#7
+    'Лекция №3: вы приступили к просмотру видео',#8
+    'Лекция №3: вы приступили к сдаче вЫходного теста',#9
+    'Лекция №4: вы приступили к сдаче входного теста',#10
+    'Лекция №4: вы приступили к просмотру видео',#11
+    'Лекция №4: вы приступили к сдаче вЫходного теста',#12
+    'Лекция №5: вы приступили к сдаче входного теста',#13
+    'Лекция №5: вы приступили к просмотру видео',#14
+    'Лекция №5: вы приступили к сдаче вЫходного теста',#15
+    'вы приступили к сдаче финального теста',#16
+    'вы сдали финальный тест - курс закрыт'#17
 ]
 
-N_PAGES = [0,0,1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,0,6]
-IN_OUT =  [0,0,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,1,2]
+def page2tuple(page):
+    lec = (page+2) // 3
+    sec = (page+2) % 3
+    return (lec,sec)
 
 def rec2exam(lec,inout):
     qset = Question.objects.filter(lecture=lec,in_out=inout).order_by('number')
@@ -58,12 +62,15 @@ def rec2fwd(request,crs):
     course = Course.objects.get(id=crs)
     record = ExamRecord.objects.get(course_id=course.id,student_id=request.user)
     page = record.current
-    lec_n = N_PAGES[page]
+    lec,sec = page2tuple(page)
 
-    lecture = Lecture.objects.get(course_id=crs,number=str(lec_n))
-    lec = lecture.id
+    lecture = Lecture.objects.get(course_id=crs,number=str(lec))
 
-    inout = str(IN_OUT[page])
+    if sec == 0:
+        inout = '0'
+    else:
+        inout = '1'
+
     if request.method == 'POST':
         form = TestDone(request.POST)
         if form.is_valid() or True:
@@ -74,19 +81,28 @@ def rec2fwd(request,crs):
             a4 = form.cleaned_data['a_4']
             a5 = form.cleaned_data['a_5']
 
-            q1 = Question.objects.get(lecture=lec,in_out=inout,number='1')
-            q2 = Question.objects.get(lecture=lec,in_out=inout,number='2')
-            q3 = Question.objects.get(lecture=lec,in_out=inout,number='3')
-            q4 = Question.objects.get(lecture=lec,in_out=inout,number='4')
-            q5 = Question.objects.get(lecture=lec,in_out=inout,number='5')
+            q1 = Question.objects.get(lecture=lecture,in_out=inout,number='1')
+            q2 = Question.objects.get(lecture=lecture,in_out=inout,number='2')
+            q3 = Question.objects.get(lecture=lecture,in_out=inout,number='3')
+            q4 = Question.objects.get(lecture=lecture,in_out=inout,number='4')
+            q5 = Question.objects.get(lecture=lecture,in_out=inout,number='5')
 
 
             if q1.answer == a1 and q2.answer == a2 and \
                 q3.answer == a3 and q4.answer == a4 and q5.answer == a5:
                 record.current = page+1
-            elif IN_OUT[page] > 0 :
+                record.save()
+                messages.info(request, \
+                _('Поздравляем, тест сдан, движемся дальше'))
+            elif sec > 0 :
                 record.current = page-1
-            record.save()
+                record.save()
+                messages.info(request, \
+                _('К сожалению, тест провален, смотрим видео еще раз'))
+            else:
+                messages.info(request, \
+                _('К сожалению, тест провален, вы можете повторить попытку, \
+                или выбрать другой курс, более простой'))
         else:
             messages.error(request, \
             _('Необходимо заполнить все поля'))
@@ -96,7 +112,7 @@ def rec2fwd(request,crs):
     record.save()
     return rec2page(request,record.id)
 
-def page_q(request,crs,lec,inout,page=0):
+def page_q(request,crs,lec,inout,page):
     q1 = Question.objects.get(lecture=lec,in_out=inout,number='1')
     q2 = Question.objects.get(lecture=lec,in_out=inout,number='2')
     q3 = Question.objects.get(lecture=lec,in_out=inout,number='3')
@@ -121,13 +137,13 @@ def page_q(request,crs,lec,inout,page=0):
         }
     return render(request,'student/page_q.html',d)
 
-def page_v(request,crs,lec,page=0):
+def page_v(request,crs,lec,page):
     lecture = Lecture.objects.get(id=lec)
     course = Course.objects.get(id=crs)
     d = {
         'course':course,
         'lecture':lecture,
-        'current':CURRENT_PAGE[page],
+        'page':page
     }
     return render(request,'student/page_v.html',d)
 
@@ -135,26 +151,124 @@ def page_v(request,crs,lec,page=0):
 def rec2page(request,rec):
     record = ExamRecord.objects.get(id=rec)
     page = record.current
+    if page == 0:
+        page = 1
     crs = record.course_id
 
-    lec_num = str(N_PAGES[page])
+    lec_num,sec = page2tuple(page)
+
+    if lec_num > 5:
+        return final_test(request,crs)
+
+
     lecture = Lecture.objects.get(course_id=crs,number=lec_num)
     lec = lecture.id
 
-    if page in [3,6,9,12,15]:
+    if sec == 1:
         return page_v(request,crs,lec,page)
-    elif page in [0,1,4,7,10,14]:
+    elif sec == 0:
         return page_q(request,crs,lec,'0',page)
     else:
         return page_q(request,crs,lec,'1',page)
 
+def final_test(request,crs):
+    course = Course.objects.get(id=crs)
+    rec = ExamRecord.objects.get(course=crs,student=request.user)
+    rec.final_try_used = True
+    rec.save()
+
+    lec_15 = Lecture.objects.filter(course_id=crs).order_by('number')
+    ls = list(lec_15)
+    lx = [x.id for x in ls]
+    z = []
+    BigSet = formset_factory(BigQuestForm, extra=25)
+
+
+    if request.method == 'POST':
+        formset = BigSet(request.POST)
+        print(formset.total_error_count())
+
+        az = []
+        n = 0
+        for form in formset:
+            p = n//5
+            q = n%5
+            n = n+1
+            question = Question.objects.get(lecture_id=lx[p],\
+                            number=str(q+1),in_out='1')
+            try:
+                a = form.cleaned_data['answer']
+                if a != question.answer:
+                    messages.info(request,\
+                    _('Некоторые ответы неверны, незачет '))
+                    return crs_demo(request,course.id)
+
+            except:
+                messages.info(request,\
+                _('Некоторые вопросы не были отвечены, незачет '))
+                return crs_demo(request,course.id)
+
+        messages.info(request,\
+        _('Поздравляю, вы сдали экзамен на отлично!'))
+
+        rec.done = True
+        rec.save()
+        return hall(request)
+    else:
+        n=0
+        data = {
+            'form-TOTAL_FORMS': u'25',
+            'form-INITIAL_FORMS': u'0',
+            'form-MAX_NUM_FORMS': u'25',
+        }
+        formset = BigSet(data)
+        for form in formset:
+            p = n//5
+            q = n%5
+            n = n+1
+            question = Question.objects.get(lecture_id=lx[p],\
+                            number=str(q+1),in_out='1')
+
+            if question.picture:
+                pic = 'img src={0}'.format(question.picture.url)
+            else:
+                pic = 'br'
+            form.initial = {'txt':question.txt}
+            z.append((form,pic))
+
+        d = {
+            'course':course,
+            'formset':formset,
+            'z':z
+        }
+        return render(request,'student/final_test.html',d)
+
+def keywords(request,crs):
+    c = Course.objects.get(id=crs)
+    form = KwForm(request.POST or None)
+    if form.is_valid():
+        c.kw_before = form.cleaned_data['kw_before']
+        c.kw_after = form.cleaned_data['kw_after']
+        c.save()
+        messages.success(request, _('The data were successfully updated!'))
+        return course(request,crs)
+    else:
+        form = KwForm(initial=
+            {'kw_before':c.kw_before,'kw_after':c.kw_after})
+        d = {
+        'course':c,
+        'form':form
+        }
+        return render(request,'lecture/keywords.html',d)
+
+def final_test_wrn(request,crs):
+    d = {'crs':crs}
+    return render(request,'student/final_test_wrn.html',d)
 
 def crs_rec(request,crs):
     rec = ExamRecord.objects.get(course=crs,student=request.user)
     page = rec.current
     course = Course.objects.get(id=crs)
-    lec_0 = Lecture.objects.get(course = crs,number='0')
-    lec = lec_0.id
     lec_15 = [
         Lecture.objects.get(course = crs,number='1'),
         Lecture.objects.get(course = crs,number='2'),
@@ -163,11 +277,10 @@ def crs_rec(request,crs):
         Lecture.objects.get(course = crs,number='5'),
         ]
     d = {
-        'lec':lec,
         'lec_15':lec_15,
         'course':course,
         'current':CURRENT_PAGE[page],
-        'rec_id':rec.id
+        'rec':rec
     }
     return render(request,'student/crs_rec.html',d)
 
@@ -176,8 +289,6 @@ def crs_demo(request,crs):
     profile = UserProfile.objects.get(user=course.user)
     first_name = User.objects.get(id=profile.user.id).first_name
     last_name = User.objects.get(id=profile.user.id).last_name
-    lec_0 = Lecture.objects.get(course = crs,number='0')
-    lec = lec_0.id
     lec_15 = [
         Lecture.objects.get(course = crs,number='1'),
         Lecture.objects.get(course = crs,number='2'),
@@ -190,7 +301,6 @@ def crs_demo(request,crs):
         'profile':profile,
         'first_name':first_name,
         'last_name':last_name,
-        'lec':lec,
         'lec_15':lec_15,
     }
     return render(request,'student/crs_demo.html',d)
@@ -335,6 +445,13 @@ def exam(request,crs,lec,inout):
          }
     )
 
+def show_crs_video(request,crs):
+    course = Course.objects.get(id=crs)
+    d = {
+        'course': course,
+        }
+    return render(request,'lecture/show_crs_video.html',d)
+
 def show_video(request,crs,lec):
     course = Course.objects.get(id=crs)
     lecture = Lecture.objects.get(id=lec)
@@ -373,6 +490,24 @@ def upd_lecture(request,crs,lec):
                     'course':course,
                 })
 
+def upd_crs_video(request,crs):
+    course = Course.objects.get(id=crs)
+    if course.user != request.user:
+        raise Http404("Not yours")
+    form = VideoUploadForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        course.video = form.cleaned_data['video']
+        course.save()
+        messages.success(request, _('Your video was successfully updated!'))
+        return redirect('/course/'+str(crs))
+    else:
+        form = VideoUploadForm(initial={'video':course.video})
+        return render(request,'lecture/upd_crs_video.html',{
+            'form':form,
+            'course':course,
+        })
+
+
 def upd_video(request,crs,lec):
     course = Course.objects.get(id=crs)
     if course.user != request.user:
@@ -385,6 +520,7 @@ def upd_video(request,crs,lec):
         messages.success(request, _('Your video was successfully updated!'))
         return redirect('/course/'+str(crs))
     else:
+        form = VideoUploadForm(initial={'video':lecture.video})
         return render(request,'lecture/upd_video.html',{
             'form':form,
             'course':course,
@@ -432,12 +568,6 @@ def create_crs(request):
             slides = slides)
         course.save()
 
-        lec_0 = Lecture(
-            course = course,
-            name = c_name,
-            number = '0')
-        lec_0.save()
-
         name_1 = form.cleaned_data['lec_1']
         lec_1 = Lecture(
             course = course,
@@ -482,8 +612,7 @@ def create_crs(request):
 
 def course(request,crs,templ="course.html"):
     course = Course.objects.get(id=crs)
-    lec_05 = [
-        Lecture.objects.get(course = crs,number='0'),
+    lec_15 = [
         Lecture.objects.get(course = crs,number='1'),
         Lecture.objects.get(course = crs,number='2'),
         Lecture.objects.get(course = crs,number='3'),
@@ -491,7 +620,7 @@ def course(request,crs,templ="course.html"):
         Lecture.objects.get(course = crs,number='5'),
         ]
     return render(request,templ,{
-            'lec_05':lec_05,
+            'lec_15':lec_15,
             'course':course,
         }
     )

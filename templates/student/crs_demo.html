@@ -21,7 +21,11 @@
   {% endfor %}
 </ol>
 <hr>
-
+<h3>Необходимые предварительные знания:</h3>
+ {{course.kw_before}}
+<hr>
+<h3>Знания после изучения курса:</h3>
+ {{course.kw_after}}
 <hr>
 <h3>Преподаватель:</h3><h2> {{first_name}} {{last_name}}</h2>
 <img src="{{profile.picture.url}}" />

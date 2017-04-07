@@ -31,6 +31,7 @@
    {% endfor %}
  </ol>
  <hr>
+
  Мои курсы - Пассивные
 <ol>{% for obj in qset2 %}
   <li>{{ obj }}
@@ -40,6 +41,21 @@
 </li>
   {% endfor %}
 </ol>
+
+ <hr>
+
+Мои курсы - Успешно завершенные
+<ol>{% for obj in qset5 %}
+ <li>{{ obj }}
+
+ <span class="glyphicon glyphicon-check"></span>
+
+</li>
+ {% endfor %}
+</ol>
+
+
+
 <hr>
 Все остальные курсы
 <ol>

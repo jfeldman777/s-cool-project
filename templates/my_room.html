@@ -11,9 +11,13 @@
   <li>Bio: {{ user.userprofile.bio }}</li>
   <li><a href='{{user.userprofile.site}}' target="1">Site:</a></li>
 </ul>
-{% if user.userprofile.picture %}
+{% if user.userprofile.picture and not user.userprofile.picture == 'False' %}
 <img src = '{{ user.userprofile.picture.url }}'/>
+(<a href="/edit_pic/">Изменить фото</a>)
+
 {% else %}
 нет фотографии
+(<a href="/edit_pic/">Загрузить фото</a>)
 {% endif %}
+
 {% endblock %}

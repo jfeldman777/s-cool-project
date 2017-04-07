@@ -6,9 +6,14 @@
   <span class="glyphicon glyphicon-blackboard"></span>
   </a>
   {{course}}
-  <a href="/show_video/{{course.id}}/{{lec}}/" target="1" title="long video">
+  <a href="/show_crs_video/{{course.id}}/" target="1" title="long video">
   <span class="glyphicon glyphicon-facetime-video"></span>
   </a>
+  {% if not rec.final_try_used %}
+  <a href="/final_test_wrn/{{course.id}}/" target="1" title="final test">
+  <span class="glyphicon glyphicon-apple"></span>
+  </a>
+  {% endif %}
 </h2>
 <hr>
 <h3>Лекции</h3>
@@ -22,7 +27,7 @@
 </ol>
 <hr>
 <h3>{{current}}</h3>
-<a href="/rec2page/{{rec_id}}/">Продолжить движение</a>
+<a href="/rec2page/{{rec.id}}/">Продолжить движение</a>
 <hr>
 <a href="/hall/">Вернуться в главный зал</a>
 {% endblock %}

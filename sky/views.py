@@ -96,22 +96,28 @@ _('Прежде чем вас допустят в общий зал надо з�
         return render(request,"hall.html",d)
 
     elif role == 'S':
-        qset1 = ExamRecord.objects.filter(student = user, active=True)
+        qset5 = ExamRecord.objects.filter(student = user, done=True)
+        p5 = [x['course_id'] for x in qset5.values()]
+        list5 = list(qset5)
+
+        qset1 = ExamRecord.objects.filter(student = user, active=True, done=False)
         p1 = [x['course_id'] for x in qset1.values()]
 
-        qset2 = ExamRecord.objects.filter(student = user, active=False)
+        qset2 = ExamRecord.objects.filter(student = user, active=False, done=False)
         p2 = [x['course_id'] for x in qset2.values()]
 
         qset3 = Course.objects.filter(approved = True)
         list3 = list(qset3)
 
-        list4 = [x for x in list3 if x.id not in p1 if x.id not in p2]
+
+        list4 = \
+[x for x in list3 if x.id not in p1 if x.id not in p2 if x.id not in p5]
         list1 = [x for x in list3 if x.id in p1]
         list2 = [x for x in list3 if x.id in p2]
 
         return render(request,"hall.html",
             {
-            'qset1':list1,'qset2':list2,'qset4':list4,
+            'qset1':list1,'qset2':list2,'qset4':list4,'qset5':list5,
             })
 
 @login_required

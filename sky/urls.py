@@ -19,12 +19,12 @@ from django.contrib.auth import views as auth_views
 from .views import index, home, my_room, edit_profile
 from .views import hall, edit_pic, get_status, set_status
 
-from snow.views import exam_qa_form, all_courses, course_s
-from snow.views import create_crs, lecture, upd_crs, exam, enroll_me,\
-                        ex_fwd, ex_back, exam_pic_form
-from snow.views import course, upd_video, show_video, upd_lecture
-from snow.views import crs_up, crs_down, crs_rec
-from snow.views import crs_demo, rec2page, rec2back, rec2fwd
+from snow.views import exam_qa_form, all_courses, course_s, keywords
+from snow.views import create_crs, lecture, upd_crs, exam, enroll_me
+from snow.views import ex_fwd, ex_back, exam_pic_form, upd_lecture
+from snow.views import course, upd_video, upd_crs_video, show_video
+from snow.views import crs_up, crs_down, crs_rec, final_test_wrn
+from snow.views import crs_demo, rec2page, rec2back, rec2fwd, final_test
 
 from registration.backends.hmac.views import RegistrationView
 from registration.forms import RegistrationFormUniqueEmail
@@ -53,17 +53,19 @@ urlpatterns += [
 
     url(r'^create_crs/', create_crs, name="create_crs"),
     url(r'^upd_crs/(?P<crs>\d+)/', upd_crs, name="upd_crs"),
-
-
+    url(r'^final_test_wrn/(?P<crs>\d+)/', final_test_wrn, name="final_test_wrn"),
+    url(r'^final_test/(?P<crs>\d+)/', final_test, name="final_test"),
 
     url(r'^upd_lecture/(?P<crs>\d+)/(?P<lec>\d+)/', upd_lecture, name="upd_lecture"),
     url(r'^upd_video/(?P<crs>\d+)/(?P<lec>\d+)/', upd_video, name="upd_video"),
+    url(r'^upd_crs_video/(?P<crs>\d+)/', upd_crs_video, name="upd_crs_video"),
     url(r'^show_video/(?P<crs>\d+)/(?P<lec>\d+)/', show_video, name="show_video"),
 
     url(r'^all_courses/', all_courses, name="all_courses"),
 
     url(r'^enroll_me/(?P<crs>\d+)', enroll_me, name="enroll_me"),
     url(r'^course_s/(?P<crs>\d+)', course_s, name="course_s"),
+    url(r'^keywords/(?P<crs>\d+)', keywords, name="keywords"),
 
     url(r'^crs_up/(?P<crs>\d+)/', crs_up, name="crs_up"),
     url(r'^crs_down/(?P<crs>\d+)/', crs_down, name="crs_down"),

@@ -77,12 +77,16 @@ class Course(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     slides = models.URLField(null=True, blank=False)
+    video = fields.FileField(null=True)
+
+    kw_before = models.TextField(max_length=300, blank=True)
+    kw_after = models.TextField(max_length=300, blank=True)
 
     approved = models.BooleanField(default=False)
     completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 class Lecture(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
@@ -106,7 +110,7 @@ class Lecture(models.Model):
     )
     def __str__(self):
 
-        return self.name
+        return str(self.name)
 
 class Question(models.Model):
     lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
@@ -136,7 +140,7 @@ class Question(models.Model):
     answer = models.IntegerField(null=True)
 
     def __str__(self):
-        return self.txt
+        return str(self.txt)
 
 class ExamRecord(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
@@ -145,6 +149,8 @@ class ExamRecord(models.Model):
     current = models.IntegerField(default=0)
 
     active = models.BooleanField(default=True)
+    final_try_used = models.BooleanField(default=False)
+    done = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.student) + '@' + str(self.course)
