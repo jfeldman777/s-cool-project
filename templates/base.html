@@ -38,11 +38,18 @@
                           <span class="glyphicon glyphicon-knight"></span>
                       </a>
 
+                      (<a href="/tut/s2t/" title="Student needs Tutor">
+                          <span class="glyphicon glyphicon-tower"></span>
+                      </a>)
+
                 {% elif user.userprofile.last_status == 'T' %}
                       <a href="/hall/" title="You are Tutor">
                           <span class="glyphicon glyphicon-tower"></span>
                       </a>
-
+                      (
+                      <a href="/tut/t2s/" title="Tutor needs Student">
+                          <span class="glyphicon glyphicon-knight"></span>
+                      </a>)
                 {% endif %}
 
               <hr>

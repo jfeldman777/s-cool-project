@@ -63,7 +63,7 @@ def get_status(request):
             m = Profile.objects.get(user=request.user)
             m.last_status = role
             m.save()
-            return hall(request)
+            return redirect("/")
 
 
         else:
@@ -95,6 +95,10 @@ _('Прежде чем вас допустят в общий зал надо з�
 
         return render(request,"hall.html",d)
 
+    elif role == 'T':
+
+        return render(request,"hall.html")
+
     elif role == 'S':
         qset5 = ExamRecord.objects.filter(student = user, done=True)
         p5 = [x['course_id'] for x in qset5.values()]
@@ -119,6 +123,8 @@ _('Прежде чем вас допустят в общий зал надо з�
             {
             'qset1':list1,'qset2':list2,'qset4':list4,'qset5':list5,
             })
+    return render(request,"hall.html")
+    #return redirect("/")
 
 @login_required
 @transaction.atomic

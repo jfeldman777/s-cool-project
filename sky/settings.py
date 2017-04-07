@@ -36,6 +36,7 @@ SMARTFIELDS_KEEP_ORPHANS = False
 
 INSTALLED_APPS = [
     'snow',
+    'rain',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

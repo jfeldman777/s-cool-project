@@ -40,6 +40,8 @@ if settings.DEBUG:#в этом режиме медиафайлы берутся 
 urlpatterns += [
     url(r'^admin/', admin.site.urls),
 
+    url(r'^tut/',include('rain.urls')),
+
     url(r'^rec2fwd/(?P<crs>\d+)/', rec2fwd, name="rec2fwd"),
     url(r'^rec2back/(?P<crs>\d+)/', rec2back, name="rec2back"),
     url(r'^rec2page/(?P<rec>\d+)/', rec2page, name="rec2page"),
