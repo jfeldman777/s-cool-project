@@ -2,5 +2,11 @@
 {% block content %}
 
 Студент ищет тьютора
-
+<ol>
+{% for obj in qs %}
+<li>
+  <a href="/tut/v_card/{{obj.user_id}}/">{{obj}}</a>
+</li>
+</ol>
+{% endfor %}
 {% endblock %}

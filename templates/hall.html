@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-  <h2>
-Вы находитесь в главном зале проекта. </h2>
-<h3>Сейчас вы {{user.userprofile.get_status}}</h3>
+  <h3>
+Вы находитесь в главном зале проекта.
+Сейчас вы </h3>
+<h2>{{user.userprofile.get_status}}</h2>
 
 <form method="post" action="/get_status/"
 >{% csrf_token %}
@@ -103,8 +104,53 @@
 </ol>
 
 {% elif user.userprofile.last_status == 'T' %}
-Мои студенты - найти студента - связаться со студентом
 
+Мои студенты
+{% if qs11 %}
+{% for obj in qs11 %}
+<li>
+  <a href="/tut/v_card_s/{{obj.student_id}}/">
+  {{ obj }}
+</a>
+  <a href="/tut/t2s_no/{{obj.student_id}}/">
+      <span class="glyphicon glyphicon-arrow-down"
+      title="отказаться"
+      ></span>
+    </a>
+
+
+</li>
+{% endfor %}
+{% endif %}
+<hr>
+Желающие
+{% if qs01 %}
+{% for obj in qs01 %}
+<li>
+  <a href="/tut/v_card_s/{{obj.student_id}}/">
+  {{ obj }}
+</a>
+  <a href="/tut/t2s_pro/{{obj.student_id}}/">
+      <span class="glyphicon glyphicon-arrow-up"
+      title="Согласиться"
+      ></span>
+      </a>
+
+
+</li>
+{% endfor %}
+{% endif %}
+<hr>
+Бывшие
+{% if qs10 %}
+{% for obj in qs10 %}
+<li>
+  <a href="/tut/v_card_s/{{obj.student_id}}/">
+  {{ obj }}
+</a>
+</li>
+{% endfor %}
+{% endif %}
 {% endif %}
 
 {% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>Заявка</h3>
+Я, <b>{{user.get_full_name}}</b>, прошу
+<b>{{tutor.get_full_name}}</b> стать моим тьютором.
+<br>
+<a href="/tut/s2t_pro_send/{{tutor.id}}/">Отправить заявкку</a>
+<hr>
+<a href="/hall/">Отменить</a>
+
+
+{% endblock %}

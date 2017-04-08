@@ -3,6 +3,8 @@ from snow.models import UserProfile as Profile
 from snow.models import ExpertStatus, TutorStatus
 from snow.models import Course, ExamRecord
 
+from rain.models import StudentTutorContract
+
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 
@@ -63,7 +65,7 @@ def get_status(request):
             m = Profile.objects.get(user=request.user)
             m.last_status = role
             m.save()
-            return redirect("/")
+            return redirect("/hall/")
 
 
         else:
@@ -96,8 +98,21 @@ _('Прежде чем вас допустят в общий зал надо з�
         return render(request,"hall.html",d)
 
     elif role == 'T':
+        qs11 = StudentTutorContract.objects.filter(\
+                student_yes = True, tutor_yes = True)
 
-        return render(request,"hall.html")
+        qs01 = StudentTutorContract.objects.filter(\
+                student_yes = True, tutor_yes = False)
+
+        qs10 = StudentTutorContract.objects.filter(\
+            student_yes = False)
+
+        d = {
+        'qs11':qs11,
+        'qs01':qs01,
+        'qs10':qs10,
+        }
+        return render(request,"hall.html",d)
 
     elif role == 'S':
         qset5 = ExamRecord.objects.filter(student = user, done=True)

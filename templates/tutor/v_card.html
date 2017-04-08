@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>Визитная карточка тьютора</h3>
+
+<h2>{{pf.user.get_full_name}}</h2>
+
+{% if contract and contract.student_yes %}
+  <a href="/tut/s2t_no/{{pf.user_id}}/">
+    Отказаться от сотрудничества</a>
+    <br>
+{% else %}
+    <a href="/tut/s2t_pro/{{pf.user_id}}/">
+      Оставить заявку</a>
+      <br>
+{% endif %}      
+<img src = '{{pf.picture.url }}'/>
+<hr>
+<b>Местоположение:</b> {{pf.location}}
+<hr>
+<b>О себе:</b> {{ pf.bio }}
+
+{% endblock %}
