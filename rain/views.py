@@ -12,7 +12,7 @@ def t2s(request):
     return render(request,"tutor/t2s.html",d)
 
 def s2t(request):
-    tuts = TutorStatus.objects.all()
+    tuts = TutorStatus.objects.all().exclude(user_id=request.user.id)
     d = {'qs':tuts}
     return render(request,"tutor/s2t.html",d)
 
