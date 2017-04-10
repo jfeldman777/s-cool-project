@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Ищем курс по ключевым словам</h3>
+<form
+ method="post" >{% csrf_token %}
+ <table>
+  {{ form.as_table }}
+</table>
+    <input type="submit" value="Submit" />
+
+</form>
+<hr>
+Результаты последнего поиска
+<ol>
+  {% for obj in qset %}
+  <li>
+    {{obj}}
+  </li>
+  {% endfor %}
+</ol>
+{% endblock %}

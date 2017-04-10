@@ -4,8 +4,46 @@ from django.utils.translation import gettext as _
 from django.shortcuts import redirect
 
 from django.contrib.auth.models import User
-from snow.models import TutorStatus, UserProfile
+from snow.models import TutorStatus, UserProfile, Course
 from .models import StudentTutorContract
+from .forms import BookSearch
+
+from django.db.models import Q
+
+def book_search(request):
+    form = BookSearch(request.POST or None)
+    if form.is_valid():
+        print(form.cleaned_data)
+        in_title = form.cleaned_data['in_title']
+        kw_after = form.cleaned_data['kw_after']
+
+        if in_title == '' and kw_after == '':
+            qset = Course.objects.all()
+        elif kw_after == '':
+            qset = Course.objects.filter(name__icontains=in_title)
+        elif in_title == '':
+            qset = Course.objects.filter(kw_after__icontains=kw_after)
+        else:
+            qset = Course.objects.filter(\
+                Q(name__contains=in_title)|
+                Q(kw_after__contains=kw_after))
+
+        form = BookSearch(initial={'in_title':in_title,
+                        'kw_after':kw_after})
+
+        d = {
+        'qset':qset,
+        'form':form
+        }
+
+
+        return render(request,"book_search.html",d)
+    else:
+        form = BookSearch()
+        d = {
+        'form':form
+        }
+    return render(request,"book_search.html",d)
 
 def t2s(request):
     d = {}

@@ -22,19 +22,20 @@
 
       <div class="container">
         <div class="jumbotron">
-
-                <a href="/" title="Home">
+(
+                <a href="/" title="Home/logout/my_room" >
                     <span class="glyphicon glyphicon-home"></span>
                 </a>
+    )
                 {% if not user.userprofile %}
                   no profile?
 
                 {% elif user.userprofile.last_status == 'E' %}
-                      <a href="/hall/" title="You are Expert">
+                      <a href="/hall/" title="You are Expert/hall/role">
                           <span class="glyphicon glyphicon-king"></span>
                       </a>
                 {% elif user.userprofile.last_status == 'S' %}
-                      <a href="/hall/" title="You are Student">
+                      <a href="/hall/" title="You are Student/hall/role">
                           <span class="glyphicon glyphicon-knight"></span>
                       </a>
 
@@ -43,7 +44,7 @@
                       </a>)
 
                 {% elif user.userprofile.last_status == 'T' %}
-                      <a href="/hall/" title="You are Tutor">
+                      <a href="/hall/" title="You are Tutor/hall/role">
                           <span class="glyphicon glyphicon-tower"></span>
                       </a>
                       (
@@ -51,7 +52,12 @@
                           <span class="glyphicon glyphicon-knight"></span>
                       </a>)
                 {% endif %}
-
+(
+                <a href="/tut/book_search/" title="Look for course">
+                    <span class="glyphicon glyphicon-book"></span>
+                    <span class="glyphicon glyphicon-search"></span>
+                </a>
+)
               <hr>
               {% block content %}
               {% endblock content %}
