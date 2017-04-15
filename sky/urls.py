@@ -40,6 +40,8 @@ if settings.DEBUG:#в этом режиме медиафайлы берутся 
 urlpatterns += [
     url(r'^admin/', admin.site.urls),
 
+    #url(r'^wiz/',include('wiz.urls')),
+    url(r'^arc/',include('arc.urls')),
     url(r'^tut/',include('rain.urls')),
 
     url(r'^rec2fwd/(?P<crs>\d+)/', rec2fwd, name="rec2fwd"),
@@ -51,7 +53,7 @@ urlpatterns += [
     url(r'^edit_profile/', edit_profile, name="edit_profile"),
     url(r'^edit_pic/', edit_pic, name="edit_pic"),
     url(r'^get_status/', get_status, name="get_status"),
-    url(r'^set_status/(?P<role>[et]{1})', set_status, name="set_status"),
+    url(r'^set_status/(?P<role>[etaw]{1})', set_status, name="set_status"),
 
     url(r'^create_crs/', create_crs, name="create_crs"),
     url(r'^upd_crs/(?P<crs>\d+)/', upd_crs, name="upd_crs"),

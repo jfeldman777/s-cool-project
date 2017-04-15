@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h4>{{expert.user.get_full_name}}</h4>
+<h3>{{course}}</h3>
+Прикрепленные категории
+<ol>
+{% for obj in q1 %}
+<li>{{obj}}
+  <a href="/arc/detach/{{course.id}}/{{obj.id}}/" title="отсоединить категорию от курса" >
+      <span class="glyphicon glyphicon-arrow-down"></span>
+  </a>
+
+</li>
+{% endfor %}
+</ol>
+<hr>
+Прочие категории
+<ol>
+  {% for obj in q2 %}
+  <li>{{obj}}
+    <a href="/arc/attach/{{course.id}}/{{obj.id}}/" title="присоединить категорию к курсу" >
+        <span class="glyphicon glyphicon-arrow-up"></span>
+    </a>
+
+  </li>
+  {% endfor %}
+</ol>
+
+{% endblock %}

@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from .models import UserProfile as Profile
-from .models import ExpertStatus
+from .models import ExpertStatus, WizStatus, ArcStatus
 from .models import TutorStatus, ExamRecord
 
 from .models import Course
@@ -12,6 +12,9 @@ from .models import Question
 admin.site.register(Profile)
 admin.site.register(ExpertStatus)
 admin.site.register(TutorStatus)
+admin.site.register(WizStatus)
+admin.site.register(ArcStatus)
+
 
 admin.site.register(Course)
 admin.site.register(Lecture)

@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from snow.models import UserProfile as Profile
-from snow.models import ExpertStatus, TutorStatus
+from snow.models import ExpertStatus, TutorStatus, ArcStatus, WizStatus
 from snow.models import Course, ExamRecord
 
 from rain.models import StudentTutorContract
+
+from arc.models import Cat
 
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
@@ -45,6 +47,23 @@ def set_status(request, role):
             t.save()
             answer = answer + adm
 
+
+    if role == 'w':
+        answer = 'вы попросили роль волшебника '
+        t, t_created = WizStatus.objects.get_or_create(user=request.user)
+        if t.status == 'E':
+            t.status = 'A'
+            t.save()
+            answer = answer + adm
+
+    if role == 'a':
+        answer = 'вы попросили роль архитектора '
+        t, t_created = ArcStatus.objects.get_or_create(user=request.user)
+        if t.status == 'E':
+            t.status = 'A'
+            t.save()
+            answer = answer + adm
+
     return render(request,"set_status.html",{'answer':answer})
 
 @login_required
@@ -61,6 +80,16 @@ def get_status(request):
                 t, t_created = TutorStatus.objects.get_or_create(user=request.user)
                 if t.status != 'G':
                     return render(request,"get_status.html")
+            if role == 'A':
+                t, t_created = ArcStatus.objects.get_or_create(user=request.user)
+                if t.status != 'G':
+                    return render(request,"get_status.html")
+
+            if role == 'W':
+                t, t_created = WizStatus.objects.get_or_create(user=request.user)
+                if t.status != 'G':
+                    return render(request,"get_status.html")
+
 
             m = Profile.objects.get(user=request.user)
             m.last_status = role
@@ -95,6 +124,14 @@ _('Прежде чем вас допустят в общий зал надо з�
             'q_common':q_common
         }
 
+        return render(request,"hall.html",d)
+
+    elif role == 'A':
+        qset = Cat.objects.all().order_by('name')
+
+        d = {
+        'qset':qset,
+        }
         return render(request,"hall.html",d)
 
     elif role == 'T':

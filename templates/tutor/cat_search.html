@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Курсы</h3>
+<ol>
+  {% for obj in books %}
+  <li>
+<a href="/crs_demo/{{obj.id}}/" target="1">    {{obj}} </a>
+  </li>
+  {% endfor %}
+</ol>
+
+<h3>Категории</h3>
+<ol>
+  {% for obj in qset %}
+  <li>
+<a href="/tut/cat_search/{{obj.id}}/">    {{obj}} </a>
+  </li>
+  {% endfor %}
+</ol>
+
+{% endblock %}

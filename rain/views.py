@@ -2,13 +2,23 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.utils.translation import gettext as _
 from django.shortcuts import redirect
-
 from django.contrib.auth.models import User
 from snow.models import TutorStatus, UserProfile, Course
+from arc.models import Cat
 from .models import StudentTutorContract
 from .forms import BookSearch
 
 from django.db.models import Q
+
+def cat_search(request,cat=0):
+    print(cat)
+    books = Course.objects.filter(cat = cat).order_by('name')
+    qset = Cat.objects.all().order_by('name')
+    d = {
+        'qset':qset,
+        'books':books,
+    }
+    return render(request,"tutor/cat_search.html",d)
 
 def book_search(request):
     form = BookSearch(request.POST or None)
@@ -25,8 +35,8 @@ def book_search(request):
             qset = Course.objects.filter(kw_after__icontains=kw_after)
         else:
             qset = Course.objects.filter(\
-                Q(name__contains=in_title)|
-                Q(kw_after__contains=kw_after))
+                Q(name__icontains=in_title)|
+                Q(kw_after__icontains=kw_after))
 
         form = BookSearch(initial={'in_title':in_title,
                         'kw_after':kw_after})

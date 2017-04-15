@@ -10,13 +10,29 @@
 Попросить другую роль
         <select name="role">
           <option value="S">-------</option>
-          <option value="S">student</option>
-          <option value="E">expert</option>
-          <option value="T">tutor</option>
+          <option value="S">Student</option>
+          <option value="E">Expert</option>
+          <option value="T">Tutor</option>
+          <option value="A">Architect</option>
+          <option value="W">Wizard</option>
         </select>
     <input type="submit" value="Submit" />
 </form>
 <hr>
+{% if user.userprofile.last_status == 'W' %}
+wizard
+{% endif %}
+
+{% if user.userprofile.last_status == 'A' %}
+<a href="/arc/new_cat/">Создать категорию</a>
+<hr>
+Все категории
+<ol>
+{% for obj in qset %}
+<li>{{obj}}</li>
+{% endfor %}
+</ol>
+{% endif %}
 
 {% if user.userprofile.last_status == 'S' %}
   Мои курсы - Активные

@@ -1,14 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-<table>
-  <tr><th>Роль</th><th>Статус</th><th>Дата</th><th>Действие</th></tr>
-
+  <table class="table table-hover">
+    <thead>
+  <tr>
+<th>Роль</th><th>Статус</th><th>Дата</th><th>Действие</th></tr>
+    </thead>
+        <tbody>
   <tr><td>Эксперт</td><td>{{user.expertstatus.get_status }}
   </td><td>{{ user.expertstatus.add_date }}</td>
     <td>
       {% if user.expertstatus.status == 'E' %}
 
-      <a href="/set_status/e/">Попросить статус Эксперта</a>
+      <a href="/set_status/e/">Попросить роль Эксперта</a>
       {% elif user.expertstatus.status == 'A'   %}
           Ваш запрос поставлен в оочередь
       {% elif user.expertstatus.status == 'D'   %}
@@ -21,7 +24,7 @@
   </td><td>{{ user.tutorstatus.add_date }}</td>
     <td>
             {% if user.tutorstatus.status == 'E' %}
-      <a href="/set_status/t/">Попросить статус Тьютора</a>
+      <a href="/set_status/t/">Попросить роль Тьютора</a>
             {% elif user.tutorstatus.status == 'A'   %}
                 Ваш запрос поставлен в оочередь
             {% elif user.tutorstatus.status == 'D'   %}
@@ -30,8 +33,34 @@
                 Все права даны
             {% endif %}
     </td></tr>
-</table>
+<tr><td>Архитектор</td><td>{{user.arcstatus.get_status }}
+</td><td>{{ user.arcstatus.add_date }}</td>
+  <td>
+    {% if user.arcstatus.status == 'E' %}
 
+    <a href="/set_status/a/">Попросить роль Архитектора</a>
+    {% elif user.arcstatus.status == 'A'   %}
+        Ваш запрос поставлен в оочередь
+    {% elif user.arcstatus.status == 'D'   %}
+        С вами свяжутся, ждите
+    {% elif user.arcstatus.status == 'G'   %}
+        Все права даны
+    {% endif %}
+  </td></tr>
+  <tr><td>Волшебник</td><td>{{user.wizstatus.get_status }}
+  </td><td>{{ user.wizstatus.add_date }}</td>
+    <td>
+      {% if user.wizstatus.status == 'E' %}
 
-
+      <a href="/set_status/w/">Попросить роль Волшебника</a>
+      {% elif user.wizstatus.status == 'A'   %}
+          Ваш запрос поставлен в оочередь
+      {% elif user.wizstatus.status == 'D'   %}
+          С вами свяжутся, ждите
+      {% elif user.wizstatus.status == 'G'   %}
+          Все права даны
+      {% endif %}
+    </td></tr>
+    </tbody>
+  </table>
 {% endblock %}

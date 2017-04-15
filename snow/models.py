@@ -14,7 +14,9 @@ class UserStatus():
     roles = (
         ('S','Student'),
         ('E','Expert'),
-        ('T','Tutor')
+        ('T','Tutor'),
+        ('A','Architect'),
+        ('W','Wizard'),
     )
 
     def __str__(self):
@@ -40,6 +42,38 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+class ArcStatus(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    EMPTY = 'E'
+    status = models.CharField(max_length=1,
+            choices=UserStatus.choices,
+            default=EMPTY)
+    add_date = models.DateTimeField(auto_now_add=True)
+
+    def get_status(self):
+        d = dict(UserStatus.choices)
+        name = d[self.status]
+        return name
+
+    def __str__(self):
+        return self.user.username
+
+
+class WizStatus(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    EMPTY = 'E'
+    status = models.CharField(max_length=1,
+            choices=UserStatus.choices,
+            default=EMPTY)
+    add_date = models.DateTimeField(auto_now_add=True)
+
+    def get_status(self):
+        d = dict(UserStatus.choices)
+        name = d[self.status]
+        return name
+
+    def __str__(self):
+        return self.user.username
 
 class ExpertStatus(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

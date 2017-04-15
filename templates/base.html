@@ -34,6 +34,16 @@
                       <a href="/hall/" title="You are Expert/hall/role">
                           <span class="glyphicon glyphicon-king"></span>
                       </a>
+                {% elif user.userprofile.last_status == 'W' %}
+                            <a href="/hall/" title="You are Wizard/hall/role">
+                                <span class="glyphicon glyphicon-queen"></span>
+                            </a>
+
+                {% elif user.userprofile.last_status == 'A' %}
+                                  <a href="/hall/" title="You are Architect/hall/role">
+                                      <span class="glyphicon glyphicon-bishop"></span>
+                                  </a>
+
                 {% elif user.userprofile.last_status == 'S' %}
                       <a href="/hall/" title="You are Student/hall/role">
                           <span class="glyphicon glyphicon-knight"></span>
@@ -58,6 +68,13 @@
                     <span class="glyphicon glyphicon-search"></span>
                 </a>
 )
+(
+                <a href="/tut/cat_search/" title="Look for Categories">
+                    <span class="glyphicon glyphicon-flag"></span>
+                    <span class="glyphicon glyphicon-search"></span>
+                </a>
+)
+
               <hr>
               {% block content %}
               {% endblock content %}

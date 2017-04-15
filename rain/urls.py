@@ -1,12 +1,15 @@
 from django.conf.urls import url,include
 
-from .views import t2s, v_card_s, book_search,\
+from .views import t2s, v_card_s, book_search, cat_search, \
  s2t, v_card, s2t_pro, s2t_pro_send, t2s_pro, t2s_no, s2t_no
 
 urlpatterns = [
     url(r'^t2s/', t2s, name="t2s"),
     url(r'^s2t/', s2t, name="s2t"),
     url(r'^book_search/', book_search, name="book_search"),
+    url(r'^cat_search/(?P<cat>\d+)/', cat_search, name="cat_search"),
+    url(r'^cat_search/', cat_search, name="cat_search"),
+
 
     url(r'^v_card/(?P<u_id>\d+)/', v_card, name="v_card"),
     url(r'^v_card_s/(?P<u_id>\d+)/', v_card_s, name="v_card_s"),
