@@ -48,7 +48,11 @@ urlpatterns += [
     url(r'^rec2back/(?P<crs>\d+)/', rec2back, name="rec2back"),
     url(r'^rec2page/(?P<rec>\d+)/', rec2page, name="rec2page"),
 
+
+    url(r'^hall/(?P<lat>\d+\.\d+)/(?P<lng>\d+\.\d+)/', hall, name="hall"),
     url(r'^hall/', hall, name="hall"),
+
+
     url(r'^my_room/', my_room, name="my_room"),
     url(r'^edit_profile/', edit_profile, name="edit_profile"),
     url(r'^edit_pic/', edit_pic, name="edit_pic"),

@@ -122,6 +122,7 @@ AUTH_USER_EMAIL_UNIQUE = True
 #DEFAULT_FROM_EMAIL = 'info@google.ru'
 
 #import os
+G_MAP = 'AIzaSyCgHfypypDSYC16SYLCVL7qweI0KbSluzI'
 UP = True
 try:
     EMAIL_HOST_USER = os.environ['SENDGRID_USERNAME']
@@ -129,7 +130,7 @@ try:
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
     EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASSWORD']
-
+    G_MAP =  os.environ['G_MAP']
 except:
     UP = False
     pass

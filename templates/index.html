@@ -9,34 +9,107 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+          <style>
+          /* Always set the map height explicitly to define the size of the div
+           * element that contains the map. */
+          #map {
+            height: 40%;
+          }
+          /* Optional: Makes the sample page fill the window. */
+          html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+          }
+        </style>
+
   </head>
 <body>
+<div id="map"></div>
+<script>
+      // Note: This example requires that you consent to location sharing when
+      // prompted by your browser. If you see the error "The Geolocation service
+      // failed.", it means you probably did not give permission for the browser to
+      // locate you.
+
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 59, lng: 30},
+          zoom: 6
+        });
+        var infoWindow = new google.maps.InfoWindow({map: map});
+        {% autoescape off %}
+
+
+
+{% for x in xlist %}
+  {{x}}
+{% endfor %}
+
+
+  {% endautoescape %}
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            document.getElementById('go2hall').href +=
+            position.coords.latitude + "/" + position.coords.longitude + "/"
+
+
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Вы находитесь здесь');
+            map.setCenter(pos);
+
+
+
+
+
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+      }
+
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+      }
+
+
+    </script>
+
+<!----------------------------------------------------------------->
+  <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key={{gm_key}}&callback=initMap">
+      </script>
+
 
   <div class="container">
     <div class="jumbotron">
       {% if user.is_superuser %}
-        <a href="/admin/">Admin-panel</a>
-        <hr>
-      {% endif %}
-Вы находитесь на первой странице проекта Скай-Скул<br/><br/>
-<H1>
-Вас зовут = {{ user }}
-</H1>
-<br/>
+        (<a href="/admin/">Admin-panel</a>)
+          {% endif %}
 {% if request.user.is_authenticated  %}
- <hr>
-Вы активный зарегистрированный пользователь - у вас есть свой
-<a href='/my_room/'>личный кабинет</a> и вы можете пройти
-<a href="/hall/">
- в главный зал
- </a>
- <hr>
-<a href="/logout/">LOGOUT</a>
+Здравствуйте,<b> {{ user.get_full_name }}</b>, проходите:<a id='go2hall' href="/hall/">
+  LOGIN </a>(выйти из системы: <a href="/logout/"> LOGOUT</a>)
+
+
 {% else %}
-Сейчас вы неизвестно кто.<br/>
-Чтобы узнать больше, зарегистрируйтесь:<a href="/accounts/register/">SIGN_UP</a><br/>
-или войдите в систему:
-<a href="/login/">LOGIN</a>
+Здравствуйте, <b>гость!</b> -
+зарегистрируйтесь:<a href="/accounts/register/">SIGN_UP</a> - или войдите в систему:
+ <a href="/login/">LOGIN</a>
 {% endif %}
 </div>
 </div>

@@ -15,8 +15,21 @@ from django.contrib import messages
 from django.utils.translation import gettext as _
 from django.shortcuts import redirect
 
+from .settings import G_MAP
+
 def index(request):
-    return render(request,"index.html")
+    qset = Profile.objects.all()
+    tmp = "new google.maps.Marker({position:{lat: %s, lng: %s}, map:map, title: '%s'});"
+    qlist = list(qset)
+    xlist = [tmp % (x.lat,x.lng,x.user.get_full_name()) for x in qlist]
+
+
+
+    d = {
+        'gm_key':G_MAP,
+        'xlist':xlist
+    }
+    return render(request,"index.html",d)
 
 def home(request):
     return render(request,"index.html")
@@ -101,15 +114,21 @@ def get_status(request):
             return render(request,"get_status.html")
 
 @login_required
-def hall(request):
+def hall(request,lat=0,lng=100):
     user = request.user
     qset = []
     try:
-        role = user.userprofile.last_status
+        pf = user.userprofile
+        role = pf.last_status
+        pf.lng = lng
+        pf.lat = lat
+        pf.save()
     except:
         messages.error(request, \
 _('Прежде чем вас допустят в общий зал надо зайтив личный кабинет и заполнить личные данные'))
-        return redirect('/')
+        return redirect('/my_room/')
+
+
 
     if role == 'E':
         q_approved = Course.objects.filter(user = user,approved=True)

@@ -7,6 +7,7 @@
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
           <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     </head>
 
     <body>
@@ -22,8 +23,9 @@
 
       <div class="container">
         <div class="jumbotron">
+          <a href='/my_room/'>личный кабинет</a>
 (
-                <a href="/" title="Home/logout/my_room" >
+                <a href="/" title="на первуй страницу" >
                     <span class="glyphicon glyphicon-home"></span>
                 </a>
     )
@@ -31,50 +33,50 @@
                   no profile?
 
                 {% elif user.userprofile.last_status == 'E' %}
-                      <a href="/hall/" title="You are Expert/hall/role">
+                      <a href="/hall/" title="сейчас вы эксперт - вернуться в главный зал">
                           <span class="glyphicon glyphicon-king"></span>
                       </a>
                 {% elif user.userprofile.last_status == 'W' %}
-                            <a href="/hall/" title="You are Wizard/hall/role">
+                            <a href="/hall/" title="сейчас вы волшебник - вернуться в главный зал">
                                 <span class="glyphicon glyphicon-queen"></span>
                             </a>
 
                 {% elif user.userprofile.last_status == 'A' %}
-                                  <a href="/hall/" title="You are Architect/hall/role">
+                                  <a href="/hall/" title="сейчас вы архитектор - вернуться в главный зал">
                                       <span class="glyphicon glyphicon-bishop"></span>
                                   </a>
 
                 {% elif user.userprofile.last_status == 'S' %}
-                      <a href="/hall/" title="You are Student/hall/role">
+                      <a href="/hall/" title="сейчас вы студент - вернуться в главный зал">
                           <span class="glyphicon glyphicon-knight"></span>
                       </a>
 
-                      (<a href="/tut/s2t/" title="Student seeks Tutor">
+                      (<a href="/tut/s2t/" title="Студент ищет тьютора">
                           <span class="glyphicon glyphicon-tower"></span>
                       </a>)
 
                 {% elif user.userprofile.last_status == 'T' %}
-                      <a href="/hall/" title="You are Tutor/hall/role">
+                      <a href="/hall/" title="сейчас вы тьютор - вернуться в главный зал">
                           <span class="glyphicon glyphicon-tower"></span>
                       </a>
                       (
-                      <a href="/tut/t2s/" title="Tutor seeks Students">
+                      <a href="/tut/t2s/" title="Тьютор ищет студентов">
                           <span class="glyphicon glyphicon-knight"></span>
                       </a>)
                 {% endif %}
 (
-                <a href="/tut/book_search/" title="Look for course">
+                <a href="/tut/book_search/" title="Искать курс">
                     <span class="glyphicon glyphicon-book"></span>
                     <span class="glyphicon glyphicon-search"></span>
                 </a>
 )
 (
-                <a href="/tut/cat_search/" title="Look for Categories">
+                <a href="/tut/cat_search/" title="Категории">
                     <span class="glyphicon glyphicon-flag"></span>
                     <span class="glyphicon glyphicon-search"></span>
                 </a>
 )
-
+(<a href="/logout/">LOGOUT</a>)
               <hr>
               {% block content %}
               {% endblock content %}
