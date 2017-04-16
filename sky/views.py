@@ -32,7 +32,7 @@ def index(request):
     return render(request,"index.html",d)
 
 def home(request):
-    return render(request,"index.html")
+    return index(request)
 
 @login_required
 def my_room(request):
