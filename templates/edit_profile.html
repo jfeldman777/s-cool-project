@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% block content %}
 
   <form method="post" >
@@ -8,8 +9,7 @@
     {{ profile_form.as_table }}
     </table>
     <button type="submit">Save changes</button>
-
   </form>
-  (Birth Date = YYYY-MM-DD or DD.MM.YYYY)
+
 
 {% endblock %}

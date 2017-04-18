@@ -34,8 +34,8 @@ class UserProfile(models.Model):
                 choices=UserStatus.roles,
                 default='S')
 
-    lat = models.FloatField(default=0)
-    lng = models.FloatField(default=90)
+    lat = models.FloatField(default=59)
+    lng = models.FloatField(default=30)
 
     def get_status(self):
         d = dict(UserStatus.roles)

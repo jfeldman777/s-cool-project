@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load easy_maps_tags %}
+{% block content %}
+<h1>{{lab.name}}</h1>
+<h3>Ведущий - {{lab.teacher.get_full_name}}</h3>
+Начало - {{lab.t_begin}}<br>
+Окончание - {{lab.t_end}}<hr>
+<b>Адрес - {{lab.address}}</b>
+{% easy_map lab.address 700 400 %}
+<hr>
+{{lab.description}}
+{% endblock %}

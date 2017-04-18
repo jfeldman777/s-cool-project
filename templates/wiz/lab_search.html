@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+<h2>Искать события в интервале</h2>
+<form method="post">
+    {% csrf_token %}
+    <table>
+    {{ form.as_table }}
+
+  </table>
+  <input type="submit" value="Submit" />
+</form>
+
+<h2>события<h2>
+<ol>
+{% for obj in qs %}
+<li>
+<a href="/wiz/show_lab/{{obj.id}}/">{{obj.name}}</a>
+</li>
+{% endfor %}
+</ol>
+
+<link href="{% static 'admin/css/forms.css' %}" type="text/css" media="all" rel="stylesheet" />
+<link href="{% static 'admin/css/base.css' %}" type="text/css" media="all" rel="stylesheet" />
+<link href="{% static 'admin/css/widgets.css' %}" type="text/css" media="all" rel="stylesheet" />
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/jquery.init.js' %}"></script>
+{{ form.media }}
+
+{% endblock %}

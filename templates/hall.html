@@ -20,7 +20,25 @@
 </form>
 <hr>
 {% if user.userprofile.last_status == 'W' %}
-wizard
+<a href="/wiz/new_lab/">Создать событие</a>
+<hr>
+Мои события
+<ol>
+{% for obj in qs1 %}
+<li>
+<a href="/wiz/show_lab/{{obj.id}}/">{{obj.name}}</a>
+</li>
+{% endfor %}
+</ol>
+<hr>
+Чужие события
+<ol>
+{% for obj in qs2 %}
+<li>
+<a href="/wiz/show_lab/{{obj.id}}/">{{obj.name}}</a>
+</li>
+{% endfor %}
+</ol>
 {% endif %}
 
 {% if user.userprofile.last_status == 'A' %}

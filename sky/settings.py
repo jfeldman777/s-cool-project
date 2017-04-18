@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'rain',
     'wiz',
     'arc',
+    'widget_tweaks',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'storages',
+    'easy_maps',
     #'django-smartfields',
 ]
 
@@ -122,6 +124,12 @@ AUTH_USER_EMAIL_UNIQUE = True
 #DEFAULT_FROM_EMAIL = 'info@google.ru'
 
 #import os
+#EASY_MAPS_GOOGLE_MAPS_API_KEY = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ___0123456789'
+EASY_MAPS_CENTER = (59, 30)
+# Default: 'easy_maps.geocode.google_v3'
+#EASY_MAPS_GEOCODE = 'example.custom_geocode'
+
+
 G_MAP = 'AIzaSyCgHfypypDSYC16SYLCVL7qweI0KbSluzI'
 UP = True
 try:
@@ -135,6 +143,8 @@ except:
     UP = False
     pass
 
+GOOGLE_MAPS_API_KEY = G_MAP
+EASY_MAPS_GOOGLE_MAPS_API_KEY = G_MAP
 #LOGIN_REDIRECT_URL = 'views.home'
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/

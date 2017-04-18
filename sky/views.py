@@ -17,6 +17,8 @@ from django.shortcuts import redirect
 
 from .settings import G_MAP
 
+from wiz.models import Lab
+
 def index(request):
     qset = Profile.objects.all()
     tmp = "new google.maps.Marker({position:{lat: %s, lng: %s}, map:map, title: '%s'});"
@@ -143,6 +145,15 @@ _('Прежде чем вас допустят в общий зал надо з�
             'q_common':q_common
         }
 
+        return render(request,"hall.html",d)
+    elif role == 'W':
+        qs1 = Lab.objects.filter(teacher = request.user).order_by('name')
+        qs2 = Lab.objects.all().exclude(teacher = request.user).order_by('name')
+
+        d = {
+        'qs1':qs1,
+        'qs2':qs2,
+        }
         return render(request,"hall.html",d)
 
     elif role == 'A':

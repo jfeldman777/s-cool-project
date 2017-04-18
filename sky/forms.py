@@ -1,9 +1,12 @@
 from django import forms
 from django.forms import ClearableFileInput
-
+from django.contrib.admin import widgets
 from django.contrib.auth.models import User
 from snow.models import UserProfile as Profile
 from snow.models import Question, Course
+
+from django.contrib.admin.widgets import AdminDateWidget,  AdminTimeWidget, AdminSplitDateTime
+#from django.forms.widgets import DateInput
 
 class UserForm(forms.ModelForm):
     class Meta:
@@ -15,11 +18,21 @@ class KwForm(forms.ModelForm):
         model = Course
         fields = ('kw_before','kw_after')
 
+#from functools import partial
+#DateInput = partial(forms.DateInput, {'class': 'datepicker'})
+
 class ProfileForm(forms.ModelForm):
     site = forms.CharField(required=False)
     class Meta:
         model = Profile
         fields = ('bio', 'location', 'birth_date', 'site')
+        labels = {
+            'birth_date': 'дата рождения',
+            'bio':'о себе',
+            'location':'город (страна)',
+        }
+        #widgets = {'birth_date':AdminDateWidget(),}
+
 
 class QuestForm(forms.ModelForm):
     class Meta:

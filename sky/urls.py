@@ -32,6 +32,8 @@ from registration.forms import RegistrationFormUniqueEmail
 from django.conf import settings
 from django.conf.urls.static import static
 
+from django.views.i18n import javascript_catalog
+
 urlpatterns = []
 
 if settings.DEBUG:#в этом режиме медиафайлы берутся из статической папки MEDIA
@@ -39,8 +41,9 @@ if settings.DEBUG:#в этом режиме медиафайлы берутся 
 
 urlpatterns += [
     url(r'^admin/', admin.site.urls),
+    url(r'^admin/jsi18n', javascript_catalog, name='jsi18n'),
 
-    #url(r'^wiz/',include('wiz.urls')),
+    url(r'^wiz/',include('wiz.urls')),
     url(r'^arc/',include('arc.urls')),
     url(r'^tut/',include('rain.urls')),
 
@@ -105,7 +108,6 @@ urlpatterns += [
     url(r'^', include('django.contrib.auth.urls')),
     #тут лежат разные дополнительные возможности пакета регистрации -
     #вроде "хочу восстановить забытый пароль" - не проверено пока
-
 
     url(r'^', index, name="index"),#все остальные неотработанные линки сваливаются сюда
 ]
