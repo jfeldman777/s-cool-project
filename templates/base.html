@@ -23,61 +23,63 @@
 
       <div class="container">
         <div class="jumbotron">
-          <a href='/my_room/'>личный кабинет</a>
-(
-                <a href="/" title="на первуй страницу" >
-                    <span class="glyphicon glyphicon-home"></span>
-                </a>
-    )
+          <a href='/my_room/'>(личный кабинет)</a>
+  <a href="/hall/" title="вернуться в главный зал">
+                  (<span class="glyphicon glyphicon-home"></span>)
+        </a>
                 {% if not user.userprofile %}
                   no profile?
 
                 {% elif user.userprofile.last_status == 'E' %}
-                      <a href="/hall/" title="сейчас вы эксперт - вернуться в главный зал">
+                      вы эксперт
                           <span class="glyphicon glyphicon-king"></span>
-                      </a>
+
                 {% elif user.userprofile.last_status == 'W' %}
-                            <a href="/hall/" title="сейчас вы волшебник - вернуться в главный зал">
+                          вы волшебник
                                 <span class="glyphicon glyphicon-queen"></span>
-                            </a>
+
 
                 {% elif user.userprofile.last_status == 'A' %}
-                                  <a href="/hall/" title="сейчас вы архитектор - вернуться в главный зал">
+                                                                  вы архитектор
                                       <span class="glyphicon glyphicon-bishop"></span>
-                                  </a>
+
 
                 {% elif user.userprofile.last_status == 'S' %}
-                      <a href="/hall/" title="сейчас вы студент - вернуться в главный зал">
+                    вы студент
                           <span class="glyphicon glyphicon-knight"></span>
-                      </a>
 
-                      (<a href="/tut/s2t/" title="Студент ищет тьютора">
+
+                      (<a href="/tut/s2t/">
+                          Искать тьютора
                           <span class="glyphicon glyphicon-tower"></span>
                       </a>)
 
                 {% elif user.userprofile.last_status == 'T' %}
-                      <a href="/hall/" title="сейчас вы тьютор - вернуться в главный зал">
+                      вы тьютор
                           <span class="glyphicon glyphicon-tower"></span>
-                      </a>
+
                       (
                       <a href="/tut/t2s/" title="Тьютор ищет студентов">
                           <span class="glyphicon glyphicon-knight"></span>
                       </a>)
                 {% endif %}
+
 (
-                <a href="/tut/book_search/" title="Искать курс">
+                <a href="/tut/book_search/" >
+                  Искать курс
                     <span class="glyphicon glyphicon-book"></span>
                     <span class="glyphicon glyphicon-search"></span>
                 </a>
 )
-(
-                <a href="/tut/cat_search/" title="Категории">
+                (
+                <a href="/tut/cat_search/" >Категории
                     <span class="glyphicon glyphicon-flag"></span>
                     <span class="glyphicon glyphicon-search"></span>
                 </a>
 )
 (
-                <a href="/wiz/lab_search/" title="Мероприятия-лаборатории">
+                <a href="/wiz/lab_search/">
+                  Лаборатории
                     <span class="glyphicon glyphicon-fire"></span>
                     <span class="glyphicon glyphicon-map-marker"></span>
                 </a>
