@@ -27,11 +27,12 @@
 </tr>
 </table>
 
-<input type="submit" value="login 1" />
+<input type="submit" value="login" />
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
-
+Если вы прошли регистрацию, но войти не можете,
+<a href="mailto:jfeldman777@gmail.com">напишите письмо администратору</a> и укажите свой логин
 {# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+<p><a href="{% url 'password_reset' %}">Я забыл пароль, помогите мне ввести новый</a></p>
 
 {% endblock %}
