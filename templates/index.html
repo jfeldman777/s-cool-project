@@ -42,8 +42,8 @@
         (<a href="/admin/">Admin-panel</a>)
           {% endif %}
 {% if request.user.is_authenticated  %}
-Здравствуйте,<b> {{ user.get_full_name }}</b>, проходите:<a id='go2hall' href="/hall/">
-  LOGIN </a>(выйти из системы: <a href="/logout/"> LOGOUT</a>)
+Здравствуйте,<b> {{ user.get_full_name }}</b>, <a id='go2hall' href="/hall/"> проходите внутрь
+  </a> ( <a href="/logout/">выйти из системы: LOGOUT</a>)
 
 
 {% else %}
